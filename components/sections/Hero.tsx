@@ -4,6 +4,7 @@ import { useRef, useLayoutEffect } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { gsap } from "@/lib/animations";
+import { HERO_TRUST_STATS } from "@/lib/site-content";
 
 interface HeroProps {
   title: string;
@@ -145,20 +146,17 @@ export default function Hero({
           <div data-animate="trust" className="mt-16 pt-8 border-t border-white/10">
             <p className="text-white/50 text-sm uppercase tracking-wider mb-4">Pouzdani partner već više od</p>
             <div className="flex items-center gap-12">
-              <div>
-                <span className="text-5xl font-bold text-white">20+</span>
-                <p className="text-white/60 text-sm mt-1">godina iskustva</p>
-              </div>
-              <div className="w-px h-12 bg-white/20" />
-              <div>
-                <span className="text-5xl font-bold text-white">5000+</span>
-                <p className="text-white/60 text-sm mt-1">ugrađenih vrata</p>
-              </div>
-              <div className="w-px h-12 bg-white/20 hidden sm:block" />
-              <div className="hidden sm:block">
-                <span className="text-5xl font-bold text-white">100%</span>
-                <p className="text-white/60 text-sm mt-1">certifikacija</p>
-              </div>
+              {HERO_TRUST_STATS.map((stat, index) => (
+                <div key={stat.label} className="flex items-center gap-12">
+                  {index > 0 && (
+                    <div className={`w-px h-12 bg-white/20 ${index > 1 ? "hidden sm:block" : ""}`} />
+                  )}
+                  <div className={index > 1 ? "hidden sm:block" : ""}>
+                    <span className="text-5xl font-bold text-white">{stat.value}</span>
+                    <p className="text-white/60 text-sm mt-1">{stat.label}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

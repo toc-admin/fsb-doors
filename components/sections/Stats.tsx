@@ -4,33 +4,7 @@ import { useRef, useEffect } from "react";
 import Container from "@/components/ui/Container";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import { gsap, ScrollTrigger } from "@/lib/animations";
-
-const stats = [
-  {
-    value: 20,
-    suffix: "+",
-    label: "Godina iskustva",
-    description: "Na hrvatskom tržištu",
-  },
-  {
-    value: 5000,
-    suffix: "+",
-    label: "Ugrađenih vrata",
-    description: "Diljem Hrvatske",
-  },
-  {
-    value: 500,
-    suffix: "+",
-    label: "Zadovoljnih klijenata",
-    description: "Koji nam vjeruju",
-  },
-  {
-    value: 100,
-    suffix: "%",
-    label: "Certificirani proizvodi",
-    description: "EU standardi",
-  },
-];
+import { COMPANY_STATS as stats } from "@/lib/site-content";
 
 export default function Stats() {
   const sectionRef = useRef<HTMLElement>(null);

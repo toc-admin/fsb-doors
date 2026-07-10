@@ -153,9 +153,9 @@ export default function PartnerSection() {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-lg font-semibold text-white">Certifikacija</h3>
+                  <h3 className="text-lg font-semibold text-white">Razvoj i certifikacija</h3>
                   <p className="mt-2 text-white/70 text-sm">
-                    Ispitivanje i certificiranje sustava
+                    Vlastiti razvoj, ispitan u akreditiranim institucijama
                   </p>
                 </div>
               </div>

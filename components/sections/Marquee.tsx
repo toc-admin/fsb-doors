@@ -1,14 +1,6 @@
+import { MARQUEE_ITEMS as items } from "@/lib/site-content";
+
 export default function Marquee() {
-  const items = [
-    "Vrata za budućnost",
-    "Sigurnost",
-    "Kvaliteta",
-    "Pouzdanost",
-    "20+ godina iskustva",
-    "Certifiicirani proizvodi",
-    "Stručna ugradnja",
-    "Protupožarna zaštita",
-  ];
 
   return (
     <section className="py-6 bg-primary overflow-hidden">

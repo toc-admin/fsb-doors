@@ -1,6 +1,7 @@
 import Hero from "@/components/sections/Hero";
 import Marquee from "@/components/sections/Marquee";
 import FeatureGrid from "@/components/sections/FeatureGrid";
+import RndCertification from "@/components/sections/RndCertification";
 import ProductGrid from "@/components/sections/ProductGrid";
 import Process from "@/components/sections/Process";
 import ApplicationGrid from "@/components/sections/ApplicationGrid";
@@ -36,6 +37,8 @@ export default function Home() {
       <Process />
 
       <FeatureGrid />
+
+      <RndCertification />
 
       <ApplicationGrid />
 

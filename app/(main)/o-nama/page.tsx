@@ -4,6 +4,7 @@ import Container from "@/components/ui/Container";
 import Badge from "@/components/ui/Badge";
 import Stats from "@/components/sections/Stats";
 import CTA from "@/components/sections/CTA";
+import { RND_CERTIFICATION } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "O nama | FSB Doors",
@@ -162,12 +163,15 @@ export default function AboutPage() {
             </div>
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold text-dark">
-                Certifikati i standardi
+                {RND_CERTIFICATION.label}
               </h2>
-              <p className="mt-4 text-gray leading-relaxed">
-                Svi naši proizvodi posjeduju potrebne certifikate i ispunjavaju najstrože
-                europske standarde protupožarne zaštite.
-              </p>
+              <div className="mt-4 space-y-4">
+                {RND_CERTIFICATION.paragraphs.map((paragraph) => (
+                  <p key={paragraph} className="text-gray leading-relaxed">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
               <ul className="mt-8 space-y-4">
                 {certifications.map((cert, index) => (
                   <li key={index} className="flex items-center gap-3">
