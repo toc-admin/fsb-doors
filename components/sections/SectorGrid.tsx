@@ -4,7 +4,7 @@ import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
-import { gsap, ScrollTrigger } from "@/lib/animations";
+import { gsap } from "@/lib/animations";
 import { PROJECT_CATEGORIES, ProjectCategorySlug } from "@/lib/projects";
 
 // Istaknuti sektori za bento raspored (1 velika + 3 manje kartice).

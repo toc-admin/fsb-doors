@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
@@ -45,9 +46,9 @@ export default async function ServicePage({ params }: ServicePageProps) {
         <Container>
           <div className="max-w-3xl">
             <nav className="flex items-center gap-2 text-sm mb-8">
-              <a href="/usluge" className="text-gray hover:text-primary transition-colors">
+              <Link href="/usluge" className="text-gray hover:text-primary transition-colors">
                 Usluge
-              </a>
+              </Link>
               <span className="text-gray">/</span>
               <span className="text-dark font-medium">{service.title}</span>
             </nav>
