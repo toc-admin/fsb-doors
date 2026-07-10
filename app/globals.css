@@ -131,3 +131,53 @@ html {
 .blob {
   border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
 }
+
+/* ---------------------------------------------------------------------------
+   Dizajnerski koncepti — svaki koncept re-skinira osnovne tokene unutar
+   vlastitog subtree-a (radi jer @theme inline razrješava kroz kaskadu).
+   Koncepti NE diraju ostatak ove datoteke.
+--------------------------------------------------------------------------- */
+
+/* Koncept 1 — Inženjering: tamna tehnička ploha, bordo kao "vatreni" akcent */
+.theme-engineering {
+  --background: #101112;
+  --foreground: #edeae4;
+  --primary: #b3223d;
+  --primary-dark: #9e1b33;
+  --accent: #c4704a;
+  --dark: #0a0b0c;
+  --light: #191b1d;
+  --gray: #8a8f98;
+  --line: rgba(237, 234, 228, 0.14);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Koncept 2 — Katalog: papir, tinta, disciplinirane linije */
+.theme-editorial {
+  --background: #fafaf7;
+  --foreground: #131313;
+  --primary: #9e1b33;
+  --primary-dark: #7a1528;
+  --accent: #1f3a5f;
+  --dark: #131313;
+  --light: #f1f0ea;
+  --gray: #5f6368;
+  --line: rgba(19, 19, 19, 0.16);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Koncept 3 — Blok: bordo punom snagom, visoki kontrast */
+.theme-bold {
+  --background: #f5f1ec;
+  --foreground: #16090d;
+  --primary: #9e1b33;
+  --primary-dark: #6e1224;
+  --accent: #c4704a;
+  --dark: #16090d;
+  --light: #f5f1ec;
+  --gray: #75636a;
+  background: var(--background);
+  color: var(--foreground);
+}
