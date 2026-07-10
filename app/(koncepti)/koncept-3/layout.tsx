@@ -1,24 +1,18 @@
 import type { Metadata } from "next";
-import { Anton, IBM_Plex_Mono } from "next/font/google";
+import { Fraunces } from "next/font/google";
 
-// Display: teška kondenzirana glava za izjave u mjerilu bloka.
-const anton = Anton({
-  weight: "400",
+// Display: ekspresivni uređivački serif s optičkim rezovima — nosi cijeli
+// "Revija" slog: velike glave, kurzivne izvučene rečenice, inicijal.
+const fraunces = Fraunces({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-display",
-  display: "swap",
-});
-
-// Utility: mono za tehničke potpise, indekse i male oznake.
-const plexMono = IBM_Plex_Mono({
-  weight: ["400", "500"],
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-mono-blok",
+  style: ["normal", "italic"],
+  axes: ["opsz"],
+  variable: "--font-revija",
   display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Koncept 3 — Blok | FSB Doors",
+  title: "Koncept 3 — Revija | FSB Doors",
   robots: { index: false, follow: false },
 };
 
@@ -29,7 +23,7 @@ export default function ConceptLayout({
 }>) {
   return (
     <div
-      className={`theme-premium min-h-screen ${anton.variable} ${plexMono.variable}`}
+      className={`theme-premium min-h-screen ${fraunces.variable} selection:bg-primary selection:text-background`}
     >
       {children}
     </div>
