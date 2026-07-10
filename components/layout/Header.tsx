@@ -8,7 +8,6 @@ import MobileMenu from "./MobileMenu";
 
 const navigation = [
   { name: "Proizvodi", href: "/proizvodi" },
-  { name: "Primjena", href: "/primjena" },
   { name: "Projekti", href: "/projekti" },
   { name: "Usluge", href: "/usluge" },
   { name: "Blog", href: "/blog" },
@@ -24,11 +23,6 @@ const pagesWithDarkHero = [
   "/proizvodi/ostakljena-vrata",
   "/proizvodi/fiksne-ostakljene-stijene",
   "/proizvodi/revizijska-vrata",
-  "/primjena",
-  "/primjena/ugostiteljstvo",
-  "/primjena/poslovni-objekti",
-  "/primjena/javni-i-stambeni-objekti",
-  "/primjena/industrija",
   "/usluge",
   "/o-nama",
   "/kontakt",

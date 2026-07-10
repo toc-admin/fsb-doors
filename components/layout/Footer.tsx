@@ -8,11 +8,15 @@ const footerNavigation = {
     { name: "Fiksne ostakljene stijene", href: "/proizvodi/fiksne-ostakljene-stijene" },
     { name: "Revizijska vrata", href: "/proizvodi/revizijska-vrata" },
   ],
-  primjena: [
-    { name: "Ugostiteljstvo", href: "/primjena/ugostiteljstvo" },
-    { name: "Poslovni objekti", href: "/primjena/poslovni-objekti" },
-    { name: "Javni i stambeni objekti", href: "/primjena/javni-i-stambeni-objekti" },
-    { name: "Industrija", href: "/primjena/industrija" },
+  projekti: [
+    { name: "Bolnice", href: "/projekti?kategorija=bolnice" },
+    { name: "Hoteli", href: "/projekti?kategorija=hoteli" },
+    { name: "Ugostiteljstvo", href: "/projekti?kategorija=ugostiteljstvo" },
+    { name: "Stambene građevine", href: "/projekti?kategorija=stambene-gradevine" },
+    { name: "Poslovne građevine", href: "/projekti?kategorija=poslovne-gradevine" },
+    { name: "Industrijske građevine", href: "/projekti?kategorija=industrijske-gradevine" },
+    { name: "Škole i vrtići", href: "/projekti?kategorija=skole-i-vrtici" },
+    { name: "Tuneli", href: "/projekti?kategorija=tuneli" },
   ],
   tvrtka: [
     { name: "O nama", href: "/o-nama" },
@@ -87,11 +91,11 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Primjena */}
+          {/* Projekti po sektorima */}
           <div>
-            <h3 className="text-sm font-semibold tracking-wide uppercase">Primjena</h3>
+            <h3 className="text-sm font-semibold tracking-wide uppercase">Projekti</h3>
             <ul className="mt-4 space-y-3">
-              {footerNavigation.primjena.map((item) => (
+              {footerNavigation.projekti.map((item) => (
                 <li key={item.name}>
                   <Link href={item.href} className="text-sm text-gray hover:text-white transition-colors">
                     {item.name}

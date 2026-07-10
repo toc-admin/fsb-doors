@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
-import { Project } from "@/lib/projects";
+import { Project, getCategoryName } from "@/lib/projects";
 import { products } from "@/lib/products";
 
 interface ProjectDetailProps {
@@ -35,12 +35,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                 Projekti
               </Link>
               <span>/</span>
-              <span>{project.category}</span>
+              <span>{getCategoryName(project.category)}</span>
             </nav>
 
             <div className="flex flex-wrap gap-3 mb-6">
               <span className="px-4 py-1.5 text-sm font-semibold bg-primary text-white rounded-full">
-                {project.category}
+                {getCategoryName(project.category)}
               </span>
               <span className="px-4 py-1.5 text-sm font-semibold bg-white/10 backdrop-blur-sm text-white rounded-full">
                 {project.year}

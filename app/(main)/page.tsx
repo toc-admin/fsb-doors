@@ -4,7 +4,7 @@ import FeatureGrid from "@/components/sections/FeatureGrid";
 import RndCertification from "@/components/sections/RndCertification";
 import ProductGrid from "@/components/sections/ProductGrid";
 import Process from "@/components/sections/Process";
-import ApplicationGrid from "@/components/sections/ApplicationGrid";
+import SectorGrid from "@/components/sections/SectorGrid";
 import Stats from "@/components/sections/Stats";
 import Testimonials from "@/components/sections/Testimonials";
 import FAQ from "@/components/sections/FAQ";
@@ -40,7 +40,7 @@ export default function Home() {
 
       <RndCertification />
 
-      <ApplicationGrid />
+      <SectorGrid />
 
       <ProjectGrid
         projects={featuredProjects}

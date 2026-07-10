@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Container from "@/components/ui/Container";
-import { Project } from "@/lib/projects";
+import { Project, getCategoryName } from "@/lib/projects";
 
 interface ProjectGridProps {
   projects: Project[];
@@ -76,7 +76,7 @@ export default function ProjectGrid({
               <div className="absolute inset-0 p-8 flex flex-col justify-end">
                 <div className="flex flex-wrap gap-2 mb-4">
                   <span className="px-3 py-1 text-xs font-semibold bg-primary text-white rounded-full">
-                    {project.category}
+                    {getCategoryName(project.category)}
                   </span>
                   <span className="px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur-sm text-white rounded-full">
                     {project.year}
