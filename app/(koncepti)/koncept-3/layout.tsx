@@ -29,7 +29,7 @@ export default function ConceptLayout({
 }>) {
   return (
     <div
-      className={`theme-bold min-h-screen ${anton.variable} ${plexMono.variable}`}
+      className={`theme-premium min-h-screen ${anton.variable} ${plexMono.variable}`}
     >
       {children}
     </div>

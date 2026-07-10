@@ -168,16 +168,17 @@ html {
   color: var(--foreground);
 }
 
-/* Koncept 3 — Blok: bordo punom snagom, visoki kontrast */
-.theme-bold {
-  --background: #f5f1ec;
-  --foreground: #16090d;
-  --primary: #9e1b33;
-  --primary-dark: #6e1224;
-  --accent: #c4704a;
-  --dark: #16090d;
-  --light: #f5f1ec;
-  --gray: #75636a;
+/* Koncept 3 — Revija: premium editorial, serif i fotografija */
+.theme-premium {
+  --background: #f6f4ef;
+  --foreground: #1c1b1a;
+  --primary: #8a1a2e;
+  --primary-dark: #5f1220;
+  --accent: #8a8272;
+  --dark: #1c1b1a;
+  --light: #efece5;
+  --gray: #6f6a63;
+  --line: rgba(28, 27, 26, 0.14);
   background: var(--background);
   color: var(--foreground);
 }

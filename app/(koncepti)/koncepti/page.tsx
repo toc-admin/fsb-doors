@@ -26,9 +26,9 @@ const concepts = [
   {
     href: "/koncept-3",
     number: "K3",
-    name: "Blok",
+    name: "Revija",
     tagline:
-      "Bordo punom snagom: veliki blokovi boje, duotone fotografija i snažne izjave. Glasno, samouvjereno, pamtljivo.",
+      "Premium editorial: elegantna serifna tipografija, velike fotografije, mirne plohe i profinjeni detalji. Smiren, luksuzan dojam.",
   },
 ];
 
