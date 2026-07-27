@@ -5,6 +5,7 @@ import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { gsap } from "@/lib/animations";
 import { HERO_TRUST_STATS } from "@/lib/site-content";
+import { display, hairline, mono } from "@/components/site/tokens";
 
 interface HeroProps {
   title: string;
@@ -15,6 +16,8 @@ interface HeroProps {
   badge?: string;
 }
 
+// Podstranični hero u jeziku tehničkog lista: monokromatska fotografija,
+// mono oznaka lista i podaci o tvrtki kao traka mjernih vrijednosti.
 export default function Hero({
   title,
   subtitle,
@@ -31,59 +34,49 @@ export default function Hero({
     const content = contentRef.current;
     if (!section || !content) return;
 
-    // Get all animatable elements
-    const badge = content.querySelector("[data-animate='badge']");
-    const title = content.querySelector("[data-animate='title']");
-    const subtitle = content.querySelector("[data-animate='subtitle']");
-    const cta = content.querySelector("[data-animate='cta']");
-    const trust = content.querySelector("[data-animate='trust']");
+    // Ulazna animacija: suzdržani fade + pomak, redom po elementima.
+    const badgeEl = content.querySelector("[data-animate='badge']");
+    const titleEl = content.querySelector("[data-animate='title']");
+    const subtitleEl = content.querySelector("[data-animate='subtitle']");
+    const ctaEl = content.querySelector("[data-animate='cta']");
+    const trustEl = content.querySelector("[data-animate='trust']");
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const tl = gsap.timeline({ defaults: { ease: "power2.out" } });
 
-      if (badge) {
-        tl.fromTo(
-          badge,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6 }
-        );
-      }
-
-      if (title) {
-        tl.fromTo(
-          title,
-          { y: 60, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8 },
-          badge ? "-=0.3" : 0
-        );
-      }
-
-      if (subtitle) {
-        tl.fromTo(
-          subtitle,
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8 },
-          "-=0.5"
-        );
-      }
-
-      if (cta && cta.children.length > 0) {
-        tl.fromTo(
-          Array.from(cta.children),
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6, stagger: 0.15 },
-          "-=0.4"
-        );
-      }
-
-      if (trust) {
-        tl.fromTo(
-          trust,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.6 },
-          "-=0.3"
-        );
-      }
+        if (badgeEl) {
+          tl.fromTo(badgeEl, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 });
+        }
+        if (titleEl) {
+          tl.fromTo(
+            titleEl,
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.7 },
+            badgeEl ? "-=0.25" : 0
+          );
+        }
+        if (subtitleEl) {
+          tl.fromTo(
+            subtitleEl,
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.7 },
+            "-=0.45"
+          );
+        }
+        if (ctaEl && ctaEl.children.length > 0) {
+          tl.fromTo(
+            Array.from(ctaEl.children),
+            { y: 20, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.5, stagger: 0.12 },
+            "-=0.35"
+          );
+        }
+        if (trustEl) {
+          tl.fromTo(trustEl, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.25");
+        }
+      });
     }, section);
 
     return () => {
@@ -92,84 +85,83 @@ export default function Hero({
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image */}
+    <section
+      ref={sectionRef}
+      className={`relative flex min-h-[calc(100svh-4rem)] items-end overflow-hidden border-b ${hairline} bg-dark`}
+    >
+      {/* Pozadinska fotografija — monokromatski tretman kataloškog lista */}
       <div className="absolute inset-0">
         <Image
           src={image}
           alt=""
           fill
-          className="object-cover"
+          sizes="100vw"
+          className="object-cover grayscale contrast-[1.05] brightness-[0.85]"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-dark/90 via-dark/70 to-dark/30" />
+        <span aria-hidden className="absolute inset-0 bg-primary/25 mix-blend-multiply" />
+        <span aria-hidden className="absolute inset-0 bg-[#0a0b0c]/70" />
       </div>
 
-      {/* Decorative Elements */}
-      <div className="absolute top-20 right-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />
-      <div className="absolute bottom-40 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl" />
-
-      {/* Content */}
-      <div className="relative z-10 py-32 px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24">
+      {/* Sadržaj */}
+      <div className="relative z-10 mx-auto w-full max-w-[1440px] px-5 pb-14 pt-32 md:px-8 lg:px-12 lg:pb-20">
         <div ref={contentRef} className="max-w-4xl">
           {badge && (
-            <span data-animate="badge" className="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-primary/90 backdrop-blur-sm rounded-full mb-8">
-              <span className="w-2 h-2 bg-white rounded-full animate-pulse" />
-              {badge}
-            </span>
+            <p
+              data-animate="badge"
+              className={`${mono} text-[11px] uppercase tracking-[0.28em] text-gray`}
+            >
+              <span className="text-primary">■</span> {badge}
+            </p>
           )}
-          <h1 data-animate="title" className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white leading-[1.05] tracking-tight">
+          <h1
+            data-animate="title"
+            className={`${display} mt-5 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+          >
             {title}
           </h1>
-          <p data-animate="subtitle" className="mt-8 text-xl sm:text-2xl text-white/80 leading-relaxed max-w-2xl">
+          <p
+            data-animate="subtitle"
+            className="mt-6 max-w-2xl text-base leading-relaxed text-gray md:text-lg"
+          >
             {subtitle}
           </p>
           {(primaryCta || secondaryCta) && (
-            <div data-animate="cta" className="mt-12 flex flex-wrap gap-5">
+            <div data-animate="cta" className="mt-9 flex flex-wrap gap-4">
               {primaryCta && (
-                <Button href={primaryCta.href} variant="primary" size="lg" className="text-base px-10 py-4">
-                  {primaryCta.text}
-                  <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
+                <Button href={primaryCta.href} variant="primary" size="lg">
+                  {primaryCta.text} →
                 </Button>
               )}
               {secondaryCta && (
-                <Button href={secondaryCta.href} variant="outline" size="lg" className="border-2 border-white/30 text-white hover:bg-white hover:text-dark text-base px-10 py-4">
+                <Button href={secondaryCta.href} variant="outline" size="lg">
                   {secondaryCta.text}
                 </Button>
               )}
             </div>
           )}
 
-          {/* Trust indicators */}
-          <div data-animate="trust" className="mt-16 pt-8 border-t border-white/10">
-            <p className="text-white/50 text-sm uppercase tracking-wider mb-4">Pouzdani partner već više od</p>
-            <div className="flex items-center gap-12">
-              {HERO_TRUST_STATS.map((stat, index) => (
-                <div key={stat.label} className="flex items-center gap-12">
-                  {index > 0 && (
-                    <div className={`w-px h-12 bg-white/20 ${index > 1 ? "hidden sm:block" : ""}`} />
-                  )}
-                  <div className={index > 1 ? "hidden sm:block" : ""}>
-                    <span className="text-5xl font-bold text-white">{stat.value}</span>
-                    <p className="text-white/60 text-sm mt-1">{stat.label}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-light/20 to-transparent" />
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/50">
-        <span className="text-xs uppercase tracking-widest">Scroll</span>
-        <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
-          <div className="w-1.5 h-3 bg-white/50 rounded-full animate-bounce" />
+          {/* Provjerljivi podaci — traka mjernih vrijednosti */}
+          <dl
+            data-animate="trust"
+            className={`mt-14 grid grid-cols-3 border-t ${hairline} pt-6`}
+          >
+            {HERO_TRUST_STATS.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={index > 0 ? `border-l ${hairline} pl-5 md:pl-8` : ""}
+              >
+                <dd className={`${display} text-3xl font-semibold leading-none md:text-4xl`}>
+                  {stat.value}
+                </dd>
+                <dt
+                  className={`${mono} mt-2 text-[10px] uppercase tracking-[0.2em] text-gray md:text-[11px]`}
+                >
+                  {stat.label}
+                </dt>
+              </div>
+            ))}
+          </dl>
         </div>
       </div>
     </section>

@@ -1,193 +1,100 @@
-"use client";
-
-import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Container from "@/components/ui/Container";
-import { gsap } from "@/lib/animations";
-import { PROJECT_CATEGORIES, ProjectCategorySlug } from "@/lib/projects";
-
-// Istaknuti sektori za bento raspored (1 velika + 3 manje kartice).
-const featuredSlugs: ProjectCategorySlug[] = [
-  "hoteli",
-  "bolnice",
-  "poslovne-gradevine",
-  "industrijske-gradevine",
-];
-
-const featured = featuredSlugs.map(
-  (slug) => PROJECT_CATEGORIES.find((category) => category.slug === slug)!
-);
+import Reveal from "@/components/site/Reveal";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
+import { PROJECT_CATEGORIES } from "@/lib/projects";
 
 interface SectorGridProps {
   showHeading?: boolean;
 }
 
+// Sektori kao numerirani indeks (isti raster kao popis sektora u site/Projects)
+// uz jednu dokumentarnu fotografiju umjesto bento kartica.
 export default function SectorGrid({ showHeading = true }: SectorGridProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
-      // Heading animation
-      if (headingRef.current && showHeading) {
-        const children = headingRef.current.children;
-        gsap.fromTo(
-          children,
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: headingRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-
-      // Grid cards - staggered with scale
-      if (gridRef.current) {
-        const cards = gridRef.current.querySelectorAll(":scope > a");
-        gsap.fromTo(
-          cards,
-          { y: 60, scale: 0.95, opacity: 0 },
-          {
-            y: 0,
-            scale: 1,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: gridRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-    }, section);
-
-    return () => ctx.revert();
-  }, [showHeading]);
-
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-light">
-      <Container>
+    <section aria-labelledby="sektori-naslov" className="py-20 lg:py-28">
+      <div className={container}>
         {showHeading && (
-          <div ref={headingRef} className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
-            <div className="max-w-2xl">
-              <span className="inline-block px-4 py-1.5 text-sm font-semibold text-primary bg-primary/10 rounded-full mb-6">
-                Projekti po sektorima
-              </span>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark leading-tight">
-                Rješenja za<br />svaki prostor
-              </h2>
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-4 pb-12 lg:pb-16">
+              <div>
+                <p className={eyebrow}>List S—01 / Projekti po sektorima</p>
+                <h2
+                  id="sektori-naslov"
+                  className={`${display} mt-4 max-w-2xl text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+                >
+                  Rješenja za svaki prostor
+                </h2>
+              </div>
+              <p className={`${mono} max-w-[260px] text-[11px] uppercase leading-relaxed tracking-[0.22em] text-gray`}>
+                Od bolnica i hotela do industrije i tunela
+              </p>
             </div>
-            <p className="text-xl text-gray max-w-md lg:text-right">
-              Od bolnica i hotela do industrijskih građevina i tunela — pogledajte projekte iz sektora koji vas zanima.
-            </p>
-          </div>
+          </Reveal>
         )}
 
-        {/* Bento-style grid */}
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Large featured card */}
-          <Link
-            href={`/projekti?kategorija=${featured[0].slug}`}
-            className="group lg:col-span-2 lg:row-span-2 relative rounded-3xl overflow-hidden card-lift min-h-[400px] lg:min-h-[600px]"
-          >
-            <Image
-              src={featured[0].image}
-              alt={featured[0].name}
-              fill
-              className="object-cover img-zoom"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/20 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8 lg:p-12">
-              <h3 className="text-3xl lg:text-4xl font-bold text-white mb-3">
-                {featured[0].name}
-              </h3>
-              <p className="text-white/80 text-lg max-w-md">
-                {featured[0].description}
-              </p>
-              <div className="mt-6 inline-flex items-center text-white font-semibold">
-                <span>Pogledajte projekte</span>
-                <svg
-                  className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </div>
-            </div>
-          </Link>
-
-          {/* Smaller cards */}
-          {featured.slice(1).map((category) => (
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* Indeks sektora */}
+          <Reveal className="lg:col-span-6">
+            <p className={`${mono} pb-4 text-[11px] uppercase tracking-[0.24em] text-gray`}>
+              Sektori primjene — {PROJECT_CATEGORIES.length}
+            </p>
+            <ul className={`border-b ${hairline}`}>
+              {PROJECT_CATEGORIES.map((category, i) => (
+                <li key={category.slug}>
+                  <Link
+                    href={`/projekti?kategorija=${category.slug}`}
+                    className={`group flex items-baseline gap-5 border-t ${hairline} py-4 transition-colors hover:bg-light`}
+                  >
+                    <span className={`${mono} text-[11px] tracking-[0.16em] text-gray`}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={`${display} flex-1 text-xl font-medium uppercase leading-tight text-foreground md:text-2xl`}
+                    >
+                      {category.name}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className={`${mono} text-sm text-gray transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground`}
+                    >
+                      →
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
             <Link
-              key={category.slug}
-              href={`/projekti?kategorija=${category.slug}`}
-              className="group relative rounded-3xl overflow-hidden card-lift min-h-[280px]"
+              href="/projekti"
+              className={`${mono} mt-6 inline-block text-[11px] uppercase tracking-[0.18em] text-gray underline-offset-4 transition-colors hover:text-foreground hover:underline`}
             >
-              <Image
-                src={category.image}
-                alt={category.name}
-                fill
-                className="object-cover img-zoom"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-dark/30 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  {category.name}
-                </h3>
-                <p className="text-white/70 text-sm line-clamp-2">
-                  {category.description}
-                </p>
-              </div>
-              {/* Hover arrow */}
-              <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                </svg>
-              </div>
+              Svi projekti →
             </Link>
-          ))}
-        </div>
+          </Reveal>
 
-        {/* All sectors */}
-        <div className="mt-10 flex flex-wrap items-center gap-3">
-          {PROJECT_CATEGORIES.filter(
-            (category) => !featuredSlugs.includes(category.slug)
-          ).map((category) => (
-            <Link
-              key={category.slug}
-              href={`/projekti?kategorija=${category.slug}`}
-              className="px-4 py-2 text-sm font-semibold text-dark bg-white border border-gray/10 rounded-full hover:border-primary/30 hover:text-primary transition-colors"
-            >
-              {category.name}
-            </Link>
-          ))}
-          <Link
-            href="/projekti"
-            className="px-4 py-2 text-sm font-semibold text-white bg-primary rounded-full hover:bg-primary-dark transition-colors"
-          >
-            Svi projekti →
-          </Link>
+          {/* Dokumentarna fotografija */}
+          <Reveal delay={0.08} className="lg:col-span-6">
+            <figure>
+              <div className={`relative aspect-[4/3] overflow-hidden border ${hairline} lg:aspect-[4/5]`}>
+                <Image
+                  src="/images/foto/dron-moderna-zgrada.webp"
+                  alt="Moderna zgrada iz zraka — sektori primjene FSB rješenja"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="object-cover grayscale contrast-[1.05] brightness-[0.85]"
+                />
+                <span aria-hidden className="absolute inset-0 bg-primary/25 mix-blend-multiply" />
+              </div>
+              <figcaption
+                className={`${mono} mt-3 flex items-baseline gap-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
+              >
+                <span className="text-primary">F.1</span>
+                Objekti u prostoru — pregled sektora primjene
+              </figcaption>
+            </figure>
+          </Reveal>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

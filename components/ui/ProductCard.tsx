@@ -1,69 +1,80 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/lib/products";
+import { display, hairline, mono } from "@/components/site/tokens";
 
 interface ProductCardProps {
   product: Product;
 }
 
+// Kartica proizvoda kao kataloški list: kvadratni tamni panel, fotografija
+// u sivim tonovima s bordo pranjem, mono oznake i EI čipovi.
 export default function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/proizvodi/${product.categorySlug}/${product.slug}`}
-      className="group block bg-white rounded-2xl overflow-hidden card-lift border border-gray/10"
+      className="group block"
     >
-      {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden bg-light">
-        <Image
-          src={product.image}
-          alt={product.name}
-          fill
-          className="object-cover img-zoom"
-        />
-        {product.badge && (
-          <span className="absolute top-4 left-4 px-3 py-1.5 text-xs font-bold bg-primary text-white rounded-full">
-            {product.badge}
-          </span>
-        )}
-        {/* Fire rating badges */}
-        <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
-          {product.fireRating.slice(0, 3).map((rating, i) => (
+      <div className={`border ${hairline} bg-light transition-colors duration-300 hover:border-[#8a8f98]`}>
+        {/* Fotografija */}
+        <div className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover grayscale contrast-[1.05] brightness-[0.85] transition-transform duration-500 group-hover:scale-[1.03]"
+          />
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 bg-primary/25 mix-blend-multiply"
+          />
+          {product.badge && (
             <span
-              key={i}
-              className="px-2 py-1 text-xs font-semibold text-white bg-dark/70 backdrop-blur-sm rounded"
+              className={`${mono} absolute left-4 top-4 bg-primary px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em] text-[#f5f0ea]`}
             >
-              {rating}
+              {product.badge}
             </span>
-          ))}
+          )}
         </div>
-      </div>
 
-      {/* Content */}
-      <div className="p-6">
-        <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-2">
-          {product.category}
-        </div>
-        <h3 className="text-xl font-bold text-dark group-hover:text-primary transition-colors line-clamp-2">
-          {product.name}
-        </h3>
-        <p className="mt-3 text-gray text-sm line-clamp-2">
-          {product.shortDescription}
-        </p>
-        <div className="mt-5 inline-flex items-center text-primary font-semibold text-sm">
-          <span>Pogledaj detalje</span>
-          <svg
-            className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
+        {/* Sadržaj */}
+        <div className="p-6">
+          <div className={`${mono} mb-3 text-[10px] uppercase tracking-[0.24em] text-gray`}>
+            {product.category}
+          </div>
+          <h3
+            className={`${display} text-2xl font-medium uppercase leading-tight text-foreground transition-colors group-hover:text-primary line-clamp-2`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-            />
-          </svg>
+            {product.name}
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-gray line-clamp-2">
+            {product.shortDescription}
+          </p>
+
+          {/* Klase otpornosti */}
+          <div className="mt-5 flex flex-wrap gap-2">
+            {product.fireRating.slice(0, 3).map((rating) => (
+              <span
+                key={rating}
+                className={`${mono} border border-[#b3223d66] px-2.5 py-1.5 text-[11px] tracking-[0.08em] text-primary`}
+              >
+                {rating}
+              </span>
+            ))}
+          </div>
+
+          <div
+            className={`${mono} mt-6 flex items-center gap-2 border-t ${hairline} pt-4 text-[11px] uppercase tracking-[0.18em] text-gray transition-colors group-hover:text-foreground`}
+          >
+            <span>Pogledaj detalje</span>
+            <span
+              aria-hidden="true"
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              →
+            </span>
+          </div>
         </div>
       </div>
     </Link>

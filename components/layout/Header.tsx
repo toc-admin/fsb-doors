@@ -1,155 +1,131 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import MobileMenu from "./MobileMenu";
+import { hairline, mono } from "@/components/site/tokens";
 
-const navigation = [
-  { name: "Proizvodi", href: "/proizvodi" },
-  { name: "Projekti", href: "/projekti" },
-  { name: "Usluge", href: "/usluge" },
-  { name: "Blog", href: "/blog" },
-  { name: "O nama", href: "/o-nama" },
-  { name: "Kontakt", href: "/kontakt" },
-];
-
-// Pages with full-height dark hero sections
-const pagesWithDarkHero = [
-  "/",
-  "/proizvodi",
-  "/proizvodi/celicna-vrata",
-  "/proizvodi/ostakljena-vrata",
-  "/proizvodi/fiksne-ostakljene-stijene",
-  "/proizvodi/revizijska-vrata",
-  "/usluge",
-  "/o-nama",
-  "/kontakt",
-  "/blog",
-  "/projekti",
-  "/karijera",
-];
-
-// Pages with light background (show solid header immediately)
-const pagesWithLightHero = [
-  "/usluge/savjetovanje-o-protupozarnoj-zastiti",
-  "/usluge/planiranje-protupozarne-zastite",
-  "/usluge/ugradnja-protupozarnih-vrata",
-  "/usluge/odrzavanje-protupozarnih-vrata",
+const NAV = [
+  { label: "Proizvodi", href: "/proizvodi" },
+  { label: "Usluge", href: "/usluge" },
+  { label: "Projekti", href: "/projekti" },
+  { label: "O nama", href: "/o-nama" },
+  { label: "Blog", href: "/blog" },
 ];
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
-
-  // Check if current page has a dark hero
-  const hasDarkHero = pagesWithDarkHero.includes(pathname) && !pagesWithLightHero.includes(pathname);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    // Check initial scroll position
-    handleScroll();
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Show solid header if scrolled OR if page doesn't have a dark hero
-  const showSolid = scrolled || !hasDarkHero;
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        showSolid
-          ? "bg-white/95 backdrop-blur-md shadow-sm py-4"
-          : "bg-transparent py-6"
-      }`}
+      className={`fixed inset-x-0 top-0 z-50 border-b ${hairline} bg-[#101112]/95 backdrop-blur-sm`}
     >
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/fsb-logo.svg"
-              alt="FSB Doors"
-              width={130}
-              height={52}
-              className={`h-12 w-auto transition-all duration-300 ${
-                showSolid ? "" : "brightness-0 invert"
-              }`}
-              priority
-            />
-          </Link>
+      <div className="mx-auto flex h-16 w-full max-w-[1440px] items-center justify-between gap-4 px-5 md:px-8 lg:px-12">
+        <Link href="/" className="flex items-center gap-3" aria-label="FSB Doors — početna">
+          <Image
+            src="/fsb-logo.svg"
+            alt="FSB Doors"
+            width={66}
+            height={33}
+            className="brightness-0 invert"
+            priority
+          />
+          <span
+            className={`${mono} hidden border-l ${hairline} pl-3 text-[10px] uppercase leading-tight tracking-[0.22em] text-gray md:block`}
+          >
+            Protupožarna
+            <br />
+            vrata
+          </span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex lg:items-center lg:gap-x-10">
-            {navigation.map((item) => (
+        <nav aria-label="Glavna navigacija" className="hidden items-center gap-7 lg:flex">
+          {NAV.map((item) => {
+            const active =
+              pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
               <Link
-                key={item.name}
+                key={item.href}
                 href={item.href}
-                className={`text-sm font-medium transition-colors duration-200 ${
-                  showSolid
-                    ? "text-dark hover:text-primary"
-                    : "text-white/90 hover:text-white"
+                aria-current={active ? "page" : undefined}
+                className={`${mono} text-[12px] uppercase tracking-[0.18em] transition-colors hover:text-foreground ${
+                  active ? "text-foreground" : "text-gray"
                 }`}
               >
-                {item.name}
+                {item.label}
               </Link>
-            ))}
-          </div>
+            );
+          })}
+        </nav>
 
-          {/* CTA Button */}
-          <div className="hidden lg:flex lg:items-center">
-            <Link
-              href="/kontakt"
-              className={`inline-flex items-center justify-center px-6 py-3 text-sm font-semibold rounded-full transition-all duration-300 ${
-                showSolid
-                  ? "bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/25"
-                  : "bg-white text-primary hover:bg-white/90"
-              }`}
-            >
-              Zatražite ponudu
-              <svg className="ml-2 w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </Link>
-          </div>
-
-          {/* Mobile menu button */}
+        <div className="flex items-center gap-3">
+          <Link
+            href="/kontakt"
+            className={`${mono} hidden bg-primary px-4 py-2.5 text-[12px] font-medium uppercase tracking-[0.16em] text-[#f5f0ea] transition-colors hover:bg-[#9e1b33] sm:block`}
+          >
+            Zatražite ponudu
+          </Link>
           <button
             type="button"
-            className={`lg:hidden inline-flex items-center justify-center p-2 rounded-lg transition-colors ${
-              showSolid ? "text-dark hover:bg-light" : "text-white hover:bg-white/10"
-            }`}
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Otvori izbornik"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobilni-izbornik"
+            aria-label={open ? "Zatvori izbornik" : "Otvori izbornik"}
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
           >
-            <svg
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
-            </svg>
+            <span
+              className={`block h-px w-5 bg-foreground transition-transform ${open ? "translate-y-[3.5px] rotate-45" : ""}`}
+            />
+            <span
+              className={`block h-px w-5 bg-foreground transition-transform ${open ? "-translate-y-[3.5px] -rotate-45" : ""}`}
+            />
           </button>
         </div>
-      </nav>
+      </div>
 
-      {/* Mobile Menu */}
-      <MobileMenu
-        open={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-        navigation={navigation}
-      />
+      {open && (
+        <nav
+          id="mobilni-izbornik"
+          aria-label="Mobilna navigacija"
+          className={`border-t ${hairline} bg-[#101112] lg:hidden`}
+        >
+          <ul className="px-5 py-4 md:px-8">
+            {NAV.map((item, i) => (
+              <li key={item.href} className={i > 0 ? `border-t ${hairline}` : ""}>
+                <Link
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={`${mono} flex items-baseline gap-4 py-3.5 text-[13px] uppercase tracking-[0.18em] text-foreground`}
+                >
+                  <span className="text-[10px] text-gray">0{i + 1}</span>
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+            <li className={`border-t ${hairline}`}>
+              <Link
+                href="/karijera"
+                onClick={() => setOpen(false)}
+                className={`${mono} flex items-baseline gap-4 py-3.5 text-[13px] uppercase tracking-[0.18em] text-foreground`}
+              >
+                <span className="text-[10px] text-gray">0{NAV.length + 1}</span>
+                Karijera
+              </Link>
+            </li>
+            <li className={`border-t ${hairline} pt-4`}>
+              <Link
+                href="/kontakt"
+                onClick={() => setOpen(false)}
+                className={`${mono} block bg-primary px-4 py-3 text-center text-[12px] font-medium uppercase tracking-[0.16em] text-[#f5f0ea]`}
+              >
+                Zatražite ponudu
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      )}
     </header>
   );
 }

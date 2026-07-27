@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Container from "@/components/ui/Container";
-import Badge from "@/components/ui/Badge";
 import Stats from "@/components/sections/Stats";
 import CTA from "@/components/sections/CTA";
+import Reveal from "@/components/site/Reveal";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 import { RND_CERTIFICATION } from "@/lib/site-content";
 
 export const metadata: Metadata = {
@@ -15,38 +15,18 @@ const values = [
   {
     title: "Kvaliteta",
     description: "Koristimo samo vrhunske materijale i slijedimo najstrože standarde u proizvodnji.",
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
-      </svg>
-    ),
   },
   {
     title: "Pouzdanost",
     description: "Ono što obećamo, to i isporučimo. Vaša sigurnost je naša odgovornost.",
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
-      </svg>
-    ),
   },
   {
     title: "Stručnost",
     description: "Naš tim čine iskusni stručnjaci s dubokim poznavanjem protupožarne zaštite.",
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
-      </svg>
-    ),
   },
   {
     title: "Partnerstvo",
     description: "Gradimo dugoročne odnose s klijentima temeljene na povjerenju i transparentnosti.",
-    icon: (
-      <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
-      </svg>
-    ),
   },
 ];
 
@@ -60,41 +40,61 @@ const certifications = [
 export default function AboutPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 bg-dark overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/poslovni-objekti.webp"
-            alt="O nama"
-            fill
-            className="object-cover opacity-30"
-          />
-        </div>
-        <Container className="relative z-10">
-          <div className="max-w-3xl">
-            <Badge variant="light">O nama</Badge>
-            <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-white">
-              FSB DOORS d.o.o.
-            </h1>
-            <p className="mt-6 text-xl text-white/80 leading-relaxed">
-              Više od 20 godina izrađujemo i ugrađujemo protupožarna vrata vrhunske kvalitete.
-              Naša misija je zaštititi ljude i imovinu kroz inovativna rješenja protupožarne zaštite.
-            </p>
+      {/* Zaglavlje lista — naslov i dokumentarna fotografija tima */}
+      <section className={`border-b ${hairline} bg-dark py-16 lg:py-24`}>
+        <div className={container}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+            <Reveal className="lg:col-span-7">
+              <p className={eyebrow}>List O—01 / O nama</p>
+              <h1
+                className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+              >
+                FSB DOORS d.o.o.
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-gray md:text-lg">
+                Više od 20 godina izrađujemo i ugrađujemo protupožarna vrata vrhunske kvalitete.
+                Naša misija je zaštititi ljude i imovinu kroz inovativna rješenja protupožarne zaštite.
+              </p>
+            </Reveal>
+            <Reveal delay={0.08} className="lg:col-span-5">
+              <figure>
+                <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
+                  <Image
+                    src="/images/foto/ltm-inzenjeri-monitor.webp"
+                    alt="Inženjeri prate ispitivanje na monitorima ispitne stanice"
+                    fill
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    priority
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption
+                  className={`${mono} mt-3 flex items-baseline gap-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
+                >
+                  <span className="text-primary">F.1</span>
+                  Tim za ispitnom stanicom — praćenje ispitivanja
+                </figcaption>
+              </figure>
+            </Reveal>
           </div>
-        </Container>
+        </div>
       </section>
 
       <Stats />
 
-      {/* Story Section */}
-      <section className="py-20 lg:py-28">
-        <Container>
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-dark">
+      {/* Naša priča */}
+      <section aria-labelledby="prica-naslov" className="py-20 lg:py-28">
+        <div className={container}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+            <Reveal className="lg:col-span-7">
+              <p className={eyebrow}>List O—02 / Naša priča</p>
+              <h2
+                id="prica-naslov"
+                className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
+              >
                 Naša priča
               </h2>
-              <div className="mt-6 space-y-4 text-gray leading-relaxed">
+              <div className="mt-7 max-w-2xl space-y-4 text-base leading-relaxed text-gray">
                 <p>
                   FSB DOORS d.o.o. osnovana je s jasnom vizijom - postati vodeći partner
                   u protupožarnoj zaštiti na hrvatskom tržištu. Godinama smo gradili svoje
@@ -111,80 +111,124 @@ export default function AboutPage() {
                   protupožarne zaštite.
                 </p>
               </div>
-            </div>
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-              <Image
-                src="/images/savjetovanje-o-protupozarnoj-zastiti.webp"
-                alt="Naš tim"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* Values */}
-      <section className="py-20 lg:py-28 bg-light">
-        <Container>
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-dark">
-              Naše vrijednosti
-            </h2>
-            <p className="mt-4 text-gray max-w-2xl mx-auto">
-              Principi koji nas vode u svakodnevnom radu i odnosu s klijentima.
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
-              <div key={index} className="p-8 rounded-2xl bg-white hover:shadow-xl transition-all duration-300">
-                <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-primary/10 text-primary">
-                  {value.icon}
+            </Reveal>
+            <Reveal delay={0.08} className="lg:col-span-5">
+              <figure>
+                <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
+                  <Image
+                    src="/images/savjetovanje-o-protupozarnoj-zastiti.webp"
+                    alt="Naš tim tijekom savjetovanja o protupožarnoj zaštiti"
+                    fill
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    className="object-cover"
+                  />
                 </div>
-                <h3 className="mt-6 text-xl font-bold text-dark">{value.title}</h3>
-                <p className="mt-3 text-gray">{value.description}</p>
-              </div>
-            ))}
+                <figcaption
+                  className={`${mono} mt-3 flex items-baseline gap-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
+                >
+                  <span className="text-primary">F.2</span>
+                  Savjetovanje — analiza zahtjeva projekta
+                </figcaption>
+              </figure>
+            </Reveal>
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* Certifications */}
-      <section className="py-20 lg:py-28">
-        <Container>
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
-              <Image
-                src="/images/planiranje-protupozarne-zastite.webp"
-                alt="Certifikati"
-                fill
-                className="object-cover"
-              />
+      {/* Vrijednosti — numerirani indeks */}
+      <section aria-labelledby="vrijednosti-naslov" className={`border-y ${hairline} bg-light py-20 lg:py-28`}>
+        <div className={container}>
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-4 pb-10 lg:pb-14">
+              <div>
+                <p className={eyebrow}>List O—03 / Naše vrijednosti</p>
+                <h2
+                  id="vrijednosti-naslov"
+                  className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
+                >
+                  Naše vrijednosti
+                </h2>
+              </div>
+              <p className={`${mono} max-w-[260px] text-[11px] uppercase leading-relaxed tracking-[0.22em] text-gray`}>
+                Principi koji nas vode u svakodnevnom radu
+              </p>
             </div>
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-dark">
+          </Reveal>
+
+          <Reveal>
+            <ul className={`grid border-b ${hairline} md:grid-cols-2 md:gap-x-10 lg:grid-cols-4 lg:gap-x-8`}>
+              {values.map((value, index) => (
+                <li key={value.title} className={`border-t ${hairline} py-6 lg:py-8`}>
+                  <span className={`${mono} text-[11px] tracking-[0.2em] text-gray`}>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className={`${display} mt-3 text-2xl font-medium uppercase leading-tight`}>
+                    {value.title}
+                  </h3>
+                  <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray">
+                    {value.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Razvoj i certifikacija */}
+      <section aria-labelledby="certifikati-naslov" className="py-20 lg:py-28">
+        <div className={container}>
+          <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+            <Reveal className="order-2 lg:order-1 lg:col-span-5">
+              <figure>
+                <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
+                  <Image
+                    src="/images/foto/ltm-vrata-nakon-ispitivanja.webp"
+                    alt="Protupožarna vrata nakon ispitivanja vatrootpornosti"
+                    fill
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    className="object-cover"
+                  />
+                </div>
+                <figcaption
+                  className={`${mono} mt-3 flex items-baseline gap-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
+                >
+                  <span className="text-primary">F.3</span>
+                  Dokumentacija ispitivanja — vrata nakon ispitne peći
+                </figcaption>
+              </figure>
+            </Reveal>
+            <Reveal className="order-1 lg:order-2 lg:col-span-7">
+              <p className={eyebrow}>List O—04 / {RND_CERTIFICATION.label}</p>
+              <h2
+                id="certifikati-naslov"
+                className={`${display} mt-4 max-w-xl text-4xl font-semibold uppercase leading-none md:text-5xl`}
+              >
                 {RND_CERTIFICATION.label}
               </h2>
-              <div className="mt-4 space-y-4">
+              <div className="mt-7 max-w-2xl space-y-4 text-base leading-relaxed text-gray">
                 {RND_CERTIFICATION.paragraphs.map((paragraph) => (
-                  <p key={paragraph} className="text-gray leading-relaxed">
-                    {paragraph}
-                  </p>
+                  <p key={paragraph.slice(0, 24)}>{paragraph}</p>
                 ))}
               </div>
-              <ul className="mt-8 space-y-4">
+              <ul className={`mt-9 border-b ${hairline}`}>
                 {certifications.map((cert, index) => (
-                  <li key={index} className="flex items-center gap-3">
-                    <svg className="h-5 w-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span className="text-dark">{cert}</span>
+                  <li
+                    key={cert}
+                    className={`flex items-baseline gap-5 border-t ${hairline} py-4`}
+                  >
+                    <span className={`${mono} text-[11px] tracking-[0.2em] text-gray`}>
+                      C.{index + 1}
+                    </span>
+                    <span className="text-sm leading-relaxed text-foreground md:text-base">
+                      {cert}
+                    </span>
                   </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           </div>
-        </Container>
+        </div>
       </section>
 
       <CTA

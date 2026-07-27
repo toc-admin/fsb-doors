@@ -51,7 +51,7 @@ export default async function BlogPostPage({ params }: Props) {
       <ArticleDetail post={post} />
 
       {relatedPosts.length > 0 && (
-        <section className="bg-light">
+        <section className="border-t border-[rgba(237,234,228,0.14)] bg-light">
           <BlogGrid
             posts={relatedPosts}
             headingText="Povezani članci"

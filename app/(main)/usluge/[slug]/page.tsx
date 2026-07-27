@@ -2,14 +2,22 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import CTA from "@/components/sections/CTA";
+import Reveal from "@/components/site/Reveal";
+import SectionRule from "@/components/site/SectionRule";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 import { services, getServiceBySlug } from "@/lib/services";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
 }
+
+// Terenske snimke koje generički odgovaraju pojedinim uslugama.
+const SERVICE_PHOTOS: Record<string, string> = {
+  "savjetovanje-o-protupozarnoj-zastiti": "/images/foto/ltm-inzenjeri-monitor.webp",
+  "ugradnja-protupozarnih-vrata": "/images/foto/ugradnja-stakla-detalj.webp",
+};
 
 export async function generateStaticParams() {
   return services.map((service) => ({
@@ -39,137 +47,149 @@ export default async function ServicePage({ params }: ServicePageProps) {
     notFound();
   }
 
+  const serviceIndex = services.findIndex((s) => s.slug === service.slug);
+  const serviceNumber = String(serviceIndex + 1).padStart(2, "0");
+  const heroImage = SERVICE_PHOTOS[service.slug] ?? service.image;
+
   return (
     <>
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 lg:pt-40 lg:pb-20 bg-light">
-        <Container>
-          <div className="max-w-3xl">
-            <nav className="flex items-center gap-2 text-sm mb-8">
-              <Link href="/usluge" className="text-gray hover:text-primary transition-colors">
+      {/* Zaglavlje lista usluge */}
+      <section className="pt-12 md:pt-16">
+        <div className={container}>
+          <Reveal>
+            {/* Krušne mrvice */}
+            <nav
+              aria-label="Navigacijski put"
+              className={`${mono} flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-gray`}
+            >
+              <Link href="/usluge" className="transition-colors hover:text-foreground">
                 Usluge
               </Link>
-              <span className="text-gray">/</span>
-              <span className="text-dark font-medium">{service.title}</span>
+              <span aria-hidden>/</span>
+              <span className="text-foreground">{service.title}</span>
             </nav>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark leading-tight">
+
+            <p className={`${eyebrow} mt-8`}>List U—{serviceNumber} / Usluga</p>
+            <h1
+              className={`${display} mt-4 max-w-4xl text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+            >
               {service.title}
             </h1>
-            <p className="mt-6 text-xl text-gray leading-relaxed">
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-gray md:text-lg">
               {service.shortDescription}
             </p>
-          </div>
-        </Container>
-      </section>
+          </Reveal>
 
-      {/* Main Image */}
-      <section className="pb-16 lg:pb-20 bg-light">
-        <Container>
-          <div className="relative aspect-[21/9] rounded-2xl overflow-hidden">
-            <Image
-              src={service.image}
-              alt={service.title}
-              fill
-              className="object-cover"
-              priority
-            />
-          </div>
-        </Container>
-      </section>
-
-      {/* Content */}
-      <section className="py-16 lg:py-24">
-        <Container>
-          <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
-            {/* Main content */}
-            <div className="lg:col-span-2">
-              <p className="text-lg text-gray leading-relaxed">
-                {service.description}
-              </p>
-
-              {/* Features */}
-              <div className="mt-12">
-                <h2 className="text-2xl font-bold text-dark mb-6">Što uključuje</h2>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  {service.features.map((feature, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-3 p-4 bg-light rounded-xl"
-                    >
-                      <svg
-                        className="h-5 w-5 text-primary shrink-0"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M4.5 12.75l6 6 9-13.5"
-                        />
-                      </svg>
-                      <span className="text-dark font-medium">{feature}</span>
-                    </div>
-                  ))}
-                </div>
+          {/* Snimka — arhivski crno-bijeli prikaz */}
+          <Reveal delay={0.08}>
+            <figure className={`mt-10 border ${hairline} lg:mt-14`}>
+              <div className="relative aspect-[16/9] overflow-hidden md:aspect-[21/9]">
+                <Image
+                  src={heroImage}
+                  alt={service.title}
+                  fill
+                  sizes="(min-width: 1440px) 1344px, 100vw"
+                  className="object-cover grayscale contrast-[1.05] brightness-[0.85]"
+                  priority
+                />
+                <span
+                  aria-hidden
+                  className="absolute inset-0 bg-primary/25 mix-blend-multiply"
+                />
               </div>
+              <figcaption
+                className={`${mono} flex items-baseline justify-between gap-4 px-4 py-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
+              >
+                <span>List U—{serviceNumber}</span>
+                <span>{service.title}</span>
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Sadržaj */}
+      <section className="py-16 lg:py-24">
+        <div className={container}>
+          <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
+            {/* Glavni sadržaj */}
+            <div className="lg:col-span-7">
+              <Reveal>
+                <p className={`${mono} pb-4 text-[11px] uppercase tracking-[0.24em] text-gray`}>
+                  Opis usluge
+                </p>
+                <p className="max-w-2xl text-base leading-relaxed text-gray md:text-lg">
+                  {service.description}
+                </p>
+              </Reveal>
+
+              {/* Opseg usluge */}
+              <Reveal delay={0.08}>
+                <div className="mt-12">
+                  <h2
+                    className={`${display} text-2xl font-medium uppercase leading-tight md:text-3xl`}
+                  >
+                    Što uključuje
+                  </h2>
+                  <div className={`mt-6 grid border-l border-t ${hairline} sm:grid-cols-2`}>
+                    {service.features.map((feature, index) => (
+                      <div
+                        key={index}
+                        className={`border-b border-r ${hairline} p-5`}
+                      >
+                        <span className={`${mono} text-[10px] tracking-[0.16em] text-primary`}>
+                          {serviceNumber}.{index + 1}
+                        </span>
+                        <p className="mt-2 text-sm text-foreground md:text-base">
+                          {feature}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Reveal>
             </div>
 
-            {/* Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="bg-light rounded-2xl p-8 sticky top-32">
-                <h3 className="text-xl font-bold text-dark mb-6">Prednosti</h3>
-                <ul className="space-y-4">
+            {/* Bočni stupac — prednosti i kontakt */}
+            <Reveal delay={0.16} className="lg:col-span-4 lg:col-start-9">
+              <div className="lg:sticky lg:top-24">
+                <p className={`${mono} pb-4 text-[11px] uppercase tracking-[0.24em] text-gray`}>
+                  Prednosti
+                </p>
+                <ul className={`border-t ${hairline}`}>
                   {service.benefits.map((benefit, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <svg
-                        className="h-5 w-5 text-primary shrink-0 mt-0.5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2}
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                      <span className="text-gray">{benefit}</span>
+                    <li
+                      key={index}
+                      className={`flex items-baseline gap-4 border-b ${hairline} py-3.5`}
+                    >
+                      <span className={`${mono} text-[11px] tracking-[0.16em] text-gray`}>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span className="text-sm leading-relaxed text-foreground">
+                        {benefit}
+                      </span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="mt-8 pt-8 border-t border-gray/10">
+                <div className="mt-8">
                   <Button href="/kontakt" variant="primary" className="w-full justify-center">
                     Zatražite ponudu
                   </Button>
                   <a
                     href="tel:+38513496811"
-                    className="mt-4 flex items-center justify-center gap-2 text-gray hover:text-primary transition-colors"
+                    className={`${mono} mt-4 flex items-center justify-center gap-2 border ${hairline} px-6 py-3.5 text-[12px] uppercase tracking-[0.16em] text-gray transition-colors hover:border-[#8a8f98] hover:text-foreground`}
                   >
-                    <svg
-                      className="w-5 h-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={1.5}
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
-                      />
-                    </svg>
-                    +385 1 3496 811
+                    Tel — +385 1 3496 811
                   </a>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
-        </Container>
+        </div>
       </section>
+
+      <SectionRule code="U—U / 03" />
 
       <CTA
         title="Javite nam se s povjerenjem"

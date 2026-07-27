@@ -6,190 +6,212 @@ import Link from "next/link";
 import Container from "@/components/ui/Container";
 import Button from "@/components/ui/Button";
 import ProductInquiryModal from "@/components/ui/ProductInquiryModal";
+import Reveal from "@/components/site/Reveal";
+import SectionRule from "@/components/site/SectionRule";
+import { display, eyebrow, hairline, mono } from "@/components/site/tokens";
 import { Product } from "@/lib/products";
 
 interface ProductDetailProps {
   product: Product;
 }
 
+// Stranica proizvoda kao tehnički list: mono breadcrumb, galerija u boji
+// (kupac mora vidjeti stvarni proizvod), specifikacije kao definicijske
+// tablice s hairline linijama.
 export default function ProductDetail({ product }: ProductDetailProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
-      {/* Breadcrumb */}
-      <section className="pt-28 pb-8 bg-light">
+      {/* Breadcrumb — mono navigacijska linija */}
+      <div className={`border-b ${hairline}`}>
         <Container>
-          <nav className="flex items-center gap-2 text-sm">
-            <Link href="/proizvodi" className="text-gray hover:text-primary transition-colors">
+          <nav
+            aria-label="Breadcrumb"
+            className={`${mono} flex flex-wrap items-center gap-2 py-4 text-[11px] uppercase tracking-[0.16em]`}
+          >
+            <Link href="/proizvodi" className="text-gray transition-colors hover:text-foreground">
               Proizvodi
             </Link>
-            <span className="text-gray">/</span>
-            <Link href={`/proizvodi/${product.categorySlug}`} className="text-gray hover:text-primary transition-colors">
+            <span aria-hidden="true" className="text-gray">/</span>
+            <Link
+              href={`/proizvodi/${product.categorySlug}`}
+              className="text-gray transition-colors hover:text-foreground"
+            >
               {product.category}
             </Link>
-            <span className="text-gray">/</span>
-            <span className="text-dark font-medium">{product.name}</span>
+            <span aria-hidden="true" className="text-gray">/</span>
+            <span className="text-foreground">{product.name}</span>
           </nav>
         </Container>
-      </section>
+      </div>
 
-      {/* Product Info */}
-      <section className="py-12 lg:py-20 bg-light">
+      {/* Osnovni podaci proizvoda */}
+      <section className="py-12 lg:py-20">
         <Container>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Gallery */}
-            <div className="space-y-4">
-              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-white">
+          <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+            {/* Galerija — fotografije u punoj boji */}
+            <Reveal className="space-y-4">
+              <div className={`relative aspect-[4/3] overflow-hidden border ${hairline} bg-light`}>
                 <Image
                   src={product.gallery[selectedImage]}
                   alt={product.name}
                   fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
                 />
                 {product.badge && (
-                  <span className="absolute top-4 left-4 px-4 py-2 text-sm font-bold bg-primary text-white rounded-full">
+                  <span
+                    className={`${mono} absolute left-4 top-4 bg-primary px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em] text-[#f5f0ea]`}
+                  >
                     {product.badge}
                   </span>
                 )}
               </div>
               {product.gallery.length > 1 && (
-                <div className="flex gap-4">
+                <div className="flex gap-3">
                   {product.gallery.map((img, i) => (
                     <button
                       key={i}
                       onClick={() => setSelectedImage(i)}
-                      className={`relative aspect-square w-20 rounded-lg overflow-hidden border-2 transition-all ${
-                        selectedImage === i ? "border-primary" : "border-transparent"
+                      aria-label={`Fotografija ${i + 1}`}
+                      className={`relative aspect-square w-20 overflow-hidden border transition-colors ${
+                        selectedImage === i ? "border-primary" : `${hairline} hover:border-[#8a8f98]`
                       }`}
                     >
-                      <Image src={img} alt="" fill className="object-cover" />
+                      <Image src={img} alt="" fill sizes="80px" className="object-cover" />
                     </button>
                   ))}
                 </div>
               )}
-            </div>
+            </Reveal>
 
-            {/* Info */}
-            <div>
-              <div className="text-sm font-semibold text-primary uppercase tracking-wider mb-3">
-                {product.category}
-              </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-dark leading-tight">
+            {/* Podaci */}
+            <Reveal delay={0.08}>
+              <p className={eyebrow}>Tehnički list / {product.category}</p>
+              <h1
+                className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
+              >
                 {product.name}
               </h1>
 
-              {/* Fire ratings */}
+              {/* Klase otpornosti */}
               <div className="mt-6 flex flex-wrap gap-2">
-                {product.fireRating.map((rating, i) => (
+                {product.fireRating.map((rating) => (
                   <span
-                    key={i}
-                    className="px-4 py-2 text-sm font-bold text-primary bg-primary/10 rounded-lg"
+                    key={rating}
+                    className={`${mono} border border-[#b3223d66] px-2.5 py-1.5 text-[11px] tracking-[0.08em] text-primary`}
                   >
                     {rating}
                   </span>
                 ))}
               </div>
 
-              <p className="mt-6 text-lg text-gray leading-relaxed">
+              <p className="mt-6 text-base leading-relaxed text-gray">
                 {product.description}
               </p>
 
-              {/* Features */}
-              <div className="mt-8">
-                <h3 className="text-lg font-bold text-dark mb-4">Značajke</h3>
-                <ul className="grid sm:grid-cols-2 gap-3">
+              {/* Značajke — numerirani redovi kao stavke lista */}
+              <div className="mt-10">
+                <h3 className={`${mono} text-[11px] uppercase tracking-[0.24em] text-gray`}>
+                  Značajke
+                </h3>
+                <ul className={`mt-4 border-b ${hairline}`}>
                   {product.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3">
-                      <svg className="h-5 w-5 text-primary shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                      </svg>
-                      <span className="text-dark">{feature}</span>
+                    <li
+                      key={feature}
+                      className={`flex items-baseline gap-4 border-t ${hairline} py-3`}
+                    >
+                      <span className={`${mono} text-[11px] tracking-[0.2em] text-gray`}>
+                        Z.{i + 1}
+                      </span>
+                      <span className="text-sm leading-relaxed text-foreground">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* CTA */}
+              {/* Akcije */}
               <div className="mt-10 flex flex-wrap gap-4">
                 <Button onClick={() => setIsModalOpen(true)} variant="primary" size="lg">
                   Zatražite ponudu
-                  <svg className="ml-2 w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                  </svg>
+                  <span aria-hidden="true" className="ml-3">→</span>
                 </Button>
                 <Button href="tel:+38513496811" variant="outline" size="lg">
-                  <svg className="mr-2 w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                  </svg>
                   Nazovite nas
                 </Button>
               </div>
 
-              {/* Product Inquiry Modal */}
+              {/* Modal za upit o proizvodu */}
               <ProductInquiryModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 productName={product.name}
               />
-            </div>
+            </Reveal>
           </div>
         </Container>
       </section>
 
-      {/* Specifications */}
-      <section className="py-16 lg:py-24 bg-white">
+      <SectionRule code="P—P / 01" />
+
+      {/* Tehničke specifikacije — datasheet tablica */}
+      <section className="py-16 lg:py-24">
         <Container>
-          <h2 className="text-3xl sm:text-4xl font-bold text-dark mb-10">
-            Tehničke specifikacije
-          </h2>
-          <div className="max-w-4xl">
-            <div className="bg-light rounded-2xl overflow-hidden">
-              {product.specifications.map((spec, i) => (
-                <div
-                  key={i}
-                  className={`flex justify-between items-center p-6 ${
-                    i !== product.specifications.length - 1 ? "border-b border-gray/10" : ""
-                  }`}
-                >
-                  <span className="font-semibold text-dark">{spec.label}</span>
-                  <span className="text-gray text-right">{spec.value}</span>
-                </div>
-              ))}
+          <Reveal>
+            <p className={eyebrow}>Specifikacija / {product.name}</p>
+            <h2
+              className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
+            >
+              Tehničke specifikacije
+            </h2>
+          </Reveal>
+          <Reveal>
+            <div className="mt-10 max-w-4xl">
+              <dl className={`border-b ${hairline}`}>
+                {product.specifications.map((spec) => (
+                  <div
+                    key={spec.label}
+                    className={`grid gap-2 border-t ${hairline} py-4 sm:grid-cols-2 sm:gap-6`}
+                  >
+                    <dt className={`${mono} text-[11px] uppercase tracking-[0.2em] text-gray sm:pt-0.5`}>
+                      {spec.label}
+                    </dt>
+                    <dd className="text-sm leading-relaxed text-foreground sm:text-right">
+                      {spec.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
             </div>
-          </div>
+          </Reveal>
         </Container>
       </section>
 
-      {/* Related products hint */}
-      <section className="py-16 lg:py-24 bg-light">
+      {/* Ostali proizvodi / prilagođeno rješenje */}
+      <section className="bg-dark py-16 lg:py-24">
         <Container>
-          <div className="bg-primary rounded-3xl p-10 lg:p-16 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white">
+          <Reveal>
+            <p className={eyebrow}>Napomena / Ostala rješenja</p>
+            <h2
+              className={`${display} mt-4 max-w-2xl text-4xl font-semibold uppercase leading-none md:text-5xl`}
+            >
               Trebate drugačije rješenje?
             </h2>
-            <p className="mt-4 text-xl text-white/80 max-w-2xl mx-auto">
-              Pogledajte ostale proizvode u kategoriji {product.category} ili nas kontaktirajte za prilagođeno rješenje.
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-gray">
+              Pogledajte ostale proizvode u kategoriji {product.category} ili nas
+              kontaktirajte za prilagođeno rješenje.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button
-                href={`/proizvodi/${product.categorySlug}`}
-                variant="white"
-                size="lg"
-              >
+            <div className="mt-9 flex flex-wrap gap-4">
+              <Button href={`/proizvodi/${product.categorySlug}`} variant="primary" size="lg">
                 Svi proizvodi u kategoriji
               </Button>
-              <Button
-                href="/kontakt"
-                variant="outline"
-                className="border-white/30 text-white hover:bg-white hover:text-primary"
-                size="lg"
-              >
+              <Button href="/kontakt" variant="outline" size="lg">
                 Kontaktirajte nas
               </Button>
             </div>
-          </div>
+          </Reveal>
         </Container>
       </section>
     </>

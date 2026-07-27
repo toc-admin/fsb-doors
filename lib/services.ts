@@ -54,7 +54,7 @@ export const services: Service[] = [
     title: "Ugradnja protupožarnih vrata",
     shortDescription: "Profesionalna ugradnja od strane certificiranih tehničara s garantiranom kvalitetom.",
     description: "Profesionalna ugradnja protupožarnih vrata od strane certificiranih tehničara. Garantiramo preciznost izvedbe i usklađenost s tehničkim specifikacijama proizvođača. Naši tehničari prolaze redovite edukacije kako bi bili u tijeku s najnovijim tehnologijama i standardima u industriji protupožarne zaštite.",
-    image: "/images/ugradnja-protupozarnih-vrata.webp",
+    image: "/images/foto/ugradnja-atrij-radnici.webp",
     features: [
       "Certificirani tehničari",
       "Precizna ugradnja",
@@ -74,7 +74,7 @@ export const services: Service[] = [
     title: "Održavanje protupožarnih vrata",
     shortDescription: "Kvalitetno održavanje za trajnu funkcionalnost i usklađenost s propisima o požarnoj sigurnosti.",
     description: "Nakon uspješne ugradnje protupožarnih vrata, kako bi se osigurala njihova neprekidna stopostotna funkcionalnost, ona zahtijevaju kontinuirano održavanje. Naš tim ne samo da provodi ugradnju, već i pruža redovite preglede i servisiranje, odnosno održavanje i provjeru. Kako bi bili sigurni da vaša protupožarna vrata i dalje zadovoljavaju visoke standarde vatrootpornosti i da korisnicima u prostoru pružaju nepokolebljivu zaštitu od požara, naš tim će provjeriti svaki element protupožarnih vrata i osigurati da svi dijelovi rade ispravno i u skladu s propisanim standardima.",
-    image: "/images/odrzavanje-protupozarnih-vrata.webp",
+    image: "/images/foto/ugradnja-stakla-detalj.webp",
     features: [
       "Redoviti pregledi",
       "Preventivno održavanje",

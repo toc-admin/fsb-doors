@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import Container from "@/components/ui/Container";
-import { gsap, ScrollTrigger } from "@/lib/animations";
+import { useState } from "react";
+import Reveal from "@/components/site/Reveal";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 
 const faqs = [
   {
@@ -37,144 +37,93 @@ const faqs = [
   },
 ];
 
+// Pitanja kao numerirani redovi tehničkog upitnika: hairline okviri,
+// kvadratni +/− indikator umjesto zaobljene ikone.
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const leftRef = useRef<HTMLDivElement>(null);
-  const faqsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
-      // Left side animation
-      if (leftRef.current) {
-        const children = leftRef.current.children;
-        gsap.fromTo(
-          children,
-          { x: -60, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: leftRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-
-      // FAQ items stagger
-      if (faqsRef.current) {
-        const items = faqsRef.current.querySelectorAll(":scope > div");
-        gsap.fromTo(
-          items,
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            stagger: 0.1,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: faqsRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-white">
-      <Container>
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
-          {/* Left side - Heading */}
-          <div ref={leftRef} className="lg:sticky lg:top-32 lg:self-start">
-            <span className="inline-block px-4 py-1.5 text-sm font-semibold text-primary bg-primary/10 rounded-full mb-6">
-              Česta pitanja
-            </span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark leading-tight">
-              Imate pitanja?<br />
+    <section aria-labelledby="faq-naslov" className="py-20 lg:py-28">
+      <div className={container}>
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+          {/* Lijevi stupac — naslov */}
+          <Reveal className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
+            <p className={eyebrow}>List Q—01 / Česta pitanja</p>
+            <h2
+              id="faq-naslov"
+              className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
+            >
+              Imate pitanja?
+              <br />
               <span className="text-primary">Imamo odgovore</span>
             </h2>
-            <p className="mt-6 text-xl text-gray leading-relaxed">
+            <p className="mt-6 max-w-sm text-base leading-relaxed text-gray">
               Pronađite odgovore na najčešća pitanja o našim proizvodima i uslugama.
             </p>
-            <div className="mt-10 p-6 bg-light rounded-2xl">
-              <p className="text-dark font-medium">Ne pronalazite odgovor?</p>
-              <p className="text-gray mt-2">
-                Kontaktirajte nas direktno na{" "}
-                <a href="mailto:info@fsb-zagreb.hr" className="text-primary hover:underline">
-                  info@fsb-zagreb.hr
-                </a>
+            <div className={`mt-10 border ${hairline} bg-light p-6`}>
+              <p className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
+                Ne pronalazite odgovor?
               </p>
-            </div>
-          </div>
-
-          {/* Right side - Accordion */}
-          <div ref={faqsRef} className="space-y-4">
-            {faqs.map((faq, index) => (
-              <div
-                key={index}
-                className={`rounded-2xl border transition-all duration-300 ${
-                  openIndex === index
-                    ? "border-primary/20 bg-primary/5"
-                    : "border-gray/10 bg-light hover:border-gray/20"
-                }`}
+              <a
+                href="mailto:info@fsb-zagreb.hr"
+                className={`${mono} mt-3 block text-base text-foreground transition-colors hover:text-primary`}
               >
-                <button
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  className="w-full flex items-start justify-between p-6 lg:p-8 text-left"
-                >
-                  <span className={`text-lg lg:text-xl font-semibold pr-4 ${
-                    openIndex === index ? "text-primary" : "text-dark"
-                  }`}>
-                    {faq.question}
-                  </span>
-                  <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
-                    openIndex === index
-                      ? "bg-primary text-white rotate-180"
-                      : "bg-white text-gray"
-                  }`}>
-                    <svg
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
+                info@fsb-zagreb.hr
+              </a>
+            </div>
+          </Reveal>
+
+          {/* Desni stupac — akordeon */}
+          <Reveal className={`border-b ${hairline} lg:col-span-8`}>
+            {faqs.map((faq, index) => {
+              const open = openIndex === index;
+              return (
+                <div key={faq.question} className={`border-t ${hairline}`}>
+                  <button
+                    onClick={() => setOpenIndex(open ? null : index)}
+                    aria-expanded={open}
+                    className="group flex w-full items-baseline gap-5 py-5 text-left md:py-6"
+                  >
+                    <span
+                      className={`${mono} text-[11px] tracking-[0.2em] ${
+                        open ? "text-primary" : "text-gray"
+                      }`}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                      />
-                    </svg>
-                  </div>
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openIndex === index ? "max-h-96" : "max-h-0"
-                  }`}
-                >
-                  <div className="px-6 lg:px-8 pb-6 lg:pb-8 text-gray leading-relaxed text-lg">
-                    {faq.answer}
+                      P.{String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span
+                      className={`${display} flex-1 pr-4 text-xl font-medium uppercase leading-tight md:text-2xl ${
+                        open ? "text-primary" : "text-foreground"
+                      }`}
+                    >
+                      {faq.question}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className={`${mono} flex h-7 w-7 shrink-0 items-center justify-center self-center border text-sm transition-colors ${
+                        open
+                          ? "border-primary text-primary"
+                          : `${hairline} text-gray group-hover:border-[#8a8f98] group-hover:text-foreground`
+                      }`}
+                    >
+                      {open ? "−" : "+"}
+                    </span>
+                  </button>
+                  <div
+                    className={`overflow-hidden transition-all duration-300 ${
+                      open ? "max-h-[40rem]" : "max-h-0"
+                    }`}
+                  >
+                    <p className="max-w-2xl pb-6 pl-12 pr-4 text-sm leading-relaxed text-gray md:text-base">
+                      {faq.answer}
+                    </p>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              );
+            })}
+          </Reveal>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

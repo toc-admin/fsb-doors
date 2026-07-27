@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect } from "react";
+import { display, hairline, mono } from "@/components/site/tokens";
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,6 +10,8 @@ interface ModalProps {
   title?: string;
 }
 
+// Modal kao tehnički list: tamni kvadratni panel s tankim okvirom,
+// bez sjena i zaobljenja — samo hairline rub i mono zaglavlje.
 export default function Modal({ isOpen, onClose, children, title }: ModalProps) {
   useEffect(() => {
     if (isOpen) {
@@ -39,24 +42,24 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      {/* Backdrop */}
+      {/* Zatamnjenje pozadine */}
       <div
-        className="fixed inset-0 bg-dark/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#0a0b0c]/80 transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal Container */}
+      {/* Panel */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div
-          className="relative w-full max-w-lg transform rounded-2xl bg-white p-6 shadow-xl transition-all"
+          className={`relative w-full max-w-lg border ${hairline} bg-[#101112] p-6 md:p-8 transition-all`}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close Button */}
+          {/* Gumb za zatvaranje */}
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-lg text-gray hover:text-dark hover:bg-light transition-colors"
+            className={`${mono} absolute top-4 right-4 p-2 text-gray transition-colors hover:text-foreground`}
             aria-label="Zatvori"
           >
             <svg
@@ -74,12 +77,21 @@ export default function Modal({ isOpen, onClose, children, title }: ModalProps) 
             </svg>
           </button>
 
-          {/* Title */}
+          {/* Zaglavlje lista */}
           {title && (
-            <h2 className="text-xl font-bold text-dark pr-8 mb-4">{title}</h2>
+            <div className={`mb-6 border-b ${hairline} pb-4 pr-8`}>
+              <p className={`${mono} text-[10px] uppercase tracking-[0.24em] text-gray`}>
+                Obrazac / Upit
+              </p>
+              <h2
+                className={`${display} mt-2 text-2xl font-medium uppercase leading-tight text-foreground`}
+              >
+                {title}
+              </h2>
+            </div>
           )}
 
-          {/* Content */}
+          {/* Sadržaj */}
           {children}
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from "react";
 import Container from "@/components/ui/Container";
-import { gsap, ScrollTrigger } from "@/lib/animations";
+import { gsap } from "@/lib/animations";
 import { PROCESS_STEPS as steps } from "@/lib/site-content";
 
 const stepIcons: Record<string, React.ReactNode> = {

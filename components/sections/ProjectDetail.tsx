@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
+import Reveal from "@/components/site/Reveal";
+import SectionRule from "@/components/site/SectionRule";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 import { Project, getCategoryName } from "@/lib/projects";
 import { products } from "@/lib/products";
 
@@ -9,202 +10,232 @@ interface ProjectDetailProps {
   project: Project;
 }
 
+// Projekt kao dosje: mono tablica činjenica, dokumentarne fotografije u boji
+// i popis ugrađenih proizvoda kao indeks-redovi.
 export default function ProjectDetail({ project }: ProjectDetailProps) {
-  // Get product details for this project
+  // Podaci o proizvodima ugrađenima na projektu
   const projectProducts = project.products
     .map((slug) => products.find((p) => p.slug === slug))
     .filter(Boolean);
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative pt-28 pb-16 lg:pb-24 bg-dark overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src={project.image}
-            alt={project.title}
-            fill
-            className="object-cover opacity-40"
-          />
-        </div>
-        <Container className="relative z-10">
-          <div className="max-w-4xl">
-            {/* Breadcrumb */}
-            <nav className="flex items-center gap-2 text-sm text-white/60 mb-6">
-              <Link href="/projekti" className="hover:text-white transition-colors">
+      {/* Zaglavlje dosjea */}
+      <section className="pt-12 md:pt-16">
+        <div className={container}>
+          <Reveal>
+            {/* Krušne mrvice */}
+            <nav
+              aria-label="Navigacijski put"
+              className={`${mono} flex flex-wrap items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-gray`}
+            >
+              <Link href="/projekti" className="transition-colors hover:text-foreground">
                 Projekti
               </Link>
-              <span>/</span>
-              <span>{getCategoryName(project.category)}</span>
+              <span aria-hidden>/</span>
+              <Link
+                href={`/projekti?kategorija=${project.category}`}
+                className="transition-colors hover:text-foreground"
+              >
+                {getCategoryName(project.category)}
+              </Link>
             </nav>
 
-            <div className="flex flex-wrap gap-3 mb-6">
-              <span className="px-4 py-1.5 text-sm font-semibold bg-primary text-white rounded-full">
-                {getCategoryName(project.category)}
-              </span>
-              <span className="px-4 py-1.5 text-sm font-semibold bg-white/10 backdrop-blur-sm text-white rounded-full">
-                {project.year}
-              </span>
-            </div>
-
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold text-white leading-tight">
+            <p className={`${eyebrow} mt-8`}>
+              Dosje PR—{project.year} / {getCategoryName(project.category)}
+            </p>
+            <h1
+              className={`${display} mt-4 max-w-4xl text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+            >
               {project.title}
             </h1>
+          </Reveal>
 
-            <div className="mt-8 flex flex-wrap gap-8 text-white/70">
-              <div>
-                <p className="text-sm uppercase tracking-wider mb-1">Klijent</p>
-                <p className="text-white font-semibold">{project.client}</p>
+          <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-12 lg:gap-8">
+            {/* Dokumentarna snimka — puna boja kao dokaz izvedbe */}
+            <Reveal className="lg:col-span-8">
+              <div className="relative aspect-[16/10] overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(min-width: 1024px) 60vw, 100vw"
+                  className="object-cover"
+                  priority
+                />
               </div>
-              <div>
-                <p className="text-sm uppercase tracking-wider mb-1">Lokacija</p>
-                <p className="text-white font-semibold flex items-center gap-2">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
+            </Reveal>
+
+            {/* Tablica činjenica */}
+            <Reveal delay={0.08} className="lg:col-span-4">
+              <p className={`${mono} pb-2 text-[11px] uppercase tracking-[0.24em] text-gray`}>
+                Podaci o projektu
+              </p>
+              <dl className={`border-t ${hairline}`}>
+                {[
+                  { dt: "Klijent", dd: project.client },
+                  { dt: "Lokacija", dd: project.location },
+                  { dt: "Godina", dd: project.year },
+                  { dt: "Kategorija", dd: getCategoryName(project.category) },
+                ].map((row) => (
+                  <div
+                    key={row.dt}
+                    className={`flex items-baseline justify-between gap-6 border-b ${hairline} py-4`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                    />
-                  </svg>
-                  {project.location}
-                </p>
-              </div>
-              <div>
-                <p className="text-sm uppercase tracking-wider mb-1">Godina</p>
-                <p className="text-white font-semibold">{project.year}</p>
-              </div>
-            </div>
+                    <dt className={`${mono} text-[10px] uppercase tracking-[0.24em] text-gray`}>
+                      {row.dt}
+                    </dt>
+                    <dd className={`${mono} text-right text-sm text-foreground`}>
+                      {row.dd}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* Description */}
+      {/* Opis i ugrađeni proizvodi */}
       <section className="py-16 lg:py-24">
-        <Container>
-          <div className="grid lg:grid-cols-3 gap-12 lg:gap-16">
-            <div className="lg:col-span-2">
-              <h2 className="text-2xl sm:text-3xl font-bold text-dark mb-6">
+        <div className={container}>
+          <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
+            <Reveal className="lg:col-span-7">
+              <p className={`${mono} pb-4 text-[11px] uppercase tracking-[0.24em] text-gray`}>
                 O projektu
+              </p>
+              <h2
+                className={`${display} text-2xl font-medium uppercase leading-tight md:text-3xl`}
+              >
+                Opis izvedbe
               </h2>
-              <p className="text-lg text-gray leading-relaxed">
+              <p className="mt-5 max-w-2xl text-base leading-relaxed text-gray md:text-lg">
                 {project.description}
               </p>
-            </div>
+            </Reveal>
 
-            {/* Products used */}
             {projectProducts.length > 0 && (
-              <div>
-                <h3 className="text-lg font-bold text-dark mb-4">
-                  Korišteni proizvodi
-                </h3>
-                <div className="space-y-3">
-                  {projectProducts.map((product) => (
-                    <Link
-                      key={product!.slug}
-                      href={`/proizvodi/${product!.categorySlug}/${product!.slug}`}
-                      className="block p-4 bg-light rounded-xl hover:bg-primary/5 transition-colors group"
-                    >
-                      <p className="font-semibold text-dark group-hover:text-primary transition-colors">
-                        {product!.name}
-                      </p>
-                      <p className="text-sm text-gray mt-1">{product!.category}</p>
-                    </Link>
+              <Reveal delay={0.08} className="lg:col-span-4 lg:col-start-9">
+                <p className={`${mono} pb-4 text-[11px] uppercase tracking-[0.24em] text-gray`}>
+                  Ugrađeni proizvodi
+                </p>
+                <ul className={`border-b ${hairline}`}>
+                  {projectProducts.map((product, i) => (
+                    <li key={product!.slug}>
+                      <Link
+                        href={`/proizvodi/${product!.categorySlug}/${product!.slug}`}
+                        className={`group flex items-baseline gap-4 border-t ${hairline} py-4 transition-colors hover:bg-light`}
+                      >
+                        <span className={`${mono} text-[11px] tracking-[0.16em] text-gray`}>
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm text-foreground">
+                            {product!.name}
+                          </span>
+                          <span
+                            className={`${mono} mt-1 block text-[10px] uppercase tracking-[0.18em] text-gray`}
+                          >
+                            {product!.category}
+                          </span>
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          className={`${mono} text-sm text-gray transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground`}
+                        >
+                          →
+                        </span>
+                      </Link>
+                    </li>
                   ))}
-                </div>
-              </div>
+                </ul>
+              </Reveal>
             )}
           </div>
-        </Container>
+        </div>
       </section>
 
-      {/* Gallery */}
+      {/* Galerija — dokumentarne snimke u boji */}
       {project.gallery.length > 1 && (
-        <section className="py-16 lg:py-24 bg-light">
-          <Container>
-            <h2 className="text-2xl sm:text-3xl font-bold text-dark mb-8">
-              Galerija projekta
-            </h2>
-            <div className="grid md:grid-cols-2 gap-6">
-              {project.gallery.map((img, index) => (
-                <div
-                  key={index}
-                  className="relative aspect-[4/3] rounded-2xl overflow-hidden"
+        <section className="bg-light py-16 lg:py-24">
+          <div className={container}>
+            <Reveal>
+              <div className="flex flex-wrap items-baseline justify-between gap-4 pb-8">
+                <h2
+                  className={`${display} text-2xl font-medium uppercase leading-tight md:text-3xl`}
                 >
-                  <Image
-                    src={img}
-                    alt={`${project.title} - slika ${index + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
+                  Galerija projekta
+                </h2>
+                <p className={`${mono} text-[11px] uppercase tracking-[0.24em] text-gray`}>
+                  {String(project.gallery.length).padStart(2, "0")} snimki
+                </p>
+              </div>
+            </Reveal>
+            <div className="grid gap-5 md:grid-cols-2">
+              {project.gallery.map((img, index) => (
+                <Reveal key={index} delay={(index % 2) * 0.08}>
+                  <figure className={`border ${hairline}`}>
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={img}
+                        alt={`${project.title} - slika ${index + 1}`}
+                        fill
+                        sizes="(min-width: 768px) 50vw, 100vw"
+                        className="object-cover"
+                      />
+                    </div>
+                    <figcaption
+                      className={`${mono} flex items-baseline justify-between gap-4 px-4 py-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
+                    >
+                      <span>Snimka {String(index + 1).padStart(2, "0")}</span>
+                      <span>{project.location}</span>
+                    </figcaption>
+                  </figure>
+                </Reveal>
               ))}
             </div>
-          </Container>
+          </div>
         </section>
       )}
 
-      {/* CTA */}
-      <section className="py-16 lg:py-24">
-        <Container>
-          <div className="bg-primary rounded-3xl p-10 lg:p-16 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white">
-              Imate sličan projekt?
-            </h2>
-            <p className="mt-4 text-xl text-white/80 max-w-2xl mx-auto">
-              Kontaktirajte nas za besplatno savjetovanje i ponudu prilagođenu
-              vašim potrebama.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <Button href="/kontakt" variant="white" size="lg">
-                Kontaktirajte nas
-              </Button>
-              <Button
-                href="/projekti"
-                variant="outline"
-                className="border-white/30 text-white hover:bg-white hover:text-primary"
-                size="lg"
-              >
-                Svi projekti
-              </Button>
-            </div>
-          </div>
-        </Container>
-      </section>
+      <div className="pt-16 lg:pt-24">
+        <SectionRule code="PR—PR / 03" />
+      </div>
 
-      {/* Back link */}
-      <section className="pb-16">
-        <Container>
-          <Link
-            href="/projekti"
-            className="inline-flex items-center text-primary font-semibold hover:underline"
-          >
-            <svg
-              className="mr-2 w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
-              />
-            </svg>
-            Povratak na projekte
-          </Link>
-        </Container>
+      {/* Poziv — sličan projekt */}
+      <section className="py-16 lg:py-24">
+        <div className={container}>
+          <Reveal>
+            <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+              <div className="lg:col-span-8">
+                <p className={eyebrow}>List PR—02 / Ponuda</p>
+                <h2
+                  className={`${display} mt-4 max-w-2xl text-4xl font-semibold uppercase leading-none md:text-5xl`}
+                >
+                  Imate sličan projekt?
+                </h2>
+                <p className="mt-5 max-w-xl text-base leading-relaxed text-gray">
+                  Kontaktirajte nas za besplatno savjetovanje i ponudu prilagođenu
+                  vašim potrebama.
+                </p>
+                <div className="mt-8 flex flex-wrap items-center gap-4">
+                  <Link
+                    href="/kontakt"
+                    className={`${mono} bg-primary px-6 py-3.5 text-[13px] font-medium uppercase tracking-[0.16em] text-[#f5f0ea] transition-colors hover:bg-[#9e1b33]`}
+                  >
+                    Kontaktirajte nas
+                  </Link>
+                  <Link
+                    href="/projekti"
+                    className={`${mono} border ${hairline} px-6 py-3.5 text-[13px] uppercase tracking-[0.16em] text-foreground transition-colors hover:border-[#8a8f98]`}
+                  >
+                    ← Svi projekti
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
       </section>
     </>
   );

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import Container from "@/components/ui/Container";
-import Badge from "@/components/ui/Badge";
 import BlogGrid from "@/components/sections/BlogGrid";
 import CTA from "@/components/sections/CTA";
+import Reveal from "@/components/site/Reveal";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 import { getAllBlogPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -15,26 +15,30 @@ export default function BlogPage() {
 
   return (
     <>
-      {/* Hero */}
-      <section className="relative py-20 lg:py-28 bg-dark overflow-hidden">
-        <div className="absolute top-20 right-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 left-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
-
-        <Container className="relative z-10">
-          <div className="max-w-3xl">
-            <Badge variant="light">Blog</Badge>
-            <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-white">
-              Vijesti i savjeti
-            </h1>
-            <p className="mt-6 text-xl text-white/80 leading-relaxed">
-              Pratite naš blog za najnovije vijesti iz industrije, stručne savjete
-              i vodiče koji će vam pomoći u odabiru i održavanju protupožarnih vrata.
+      {/* Zaglavlje lista */}
+      <section className={`border-b ${hairline} bg-dark py-16 lg:py-24`}>
+        <Reveal className={container}>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div className="max-w-3xl">
+              <p className={eyebrow}>List B—01 / Blog</p>
+              <h1
+                className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+              >
+                Vijesti i savjeti
+              </h1>
+              <p className="mt-6 max-w-xl text-base leading-relaxed text-gray md:text-lg">
+                Pratite naš blog za najnovije vijesti iz industrije, stručne savjete
+                i vodiče koji će vam pomoći u odabiru i održavanju protupožarnih vrata.
+              </p>
+            </div>
+            <p className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
+              {posts.length} {posts.length === 1 ? "zapis" : "zapisa"} u arhivi
             </p>
           </div>
-        </Container>
+        </Reveal>
       </section>
 
-      {/* Blog Grid */}
+      {/* Indeks članaka */}
       <BlogGrid posts={posts} showHeading={false} />
 
       <CTA

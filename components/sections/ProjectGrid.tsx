@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import Container from "@/components/ui/Container";
+import { container, display, hairline, mono } from "@/components/site/tokens";
+import Reveal from "@/components/site/Reveal";
 import { Project, getCategoryName } from "@/lib/projects";
 
 interface ProjectGridProps {
@@ -10,6 +11,8 @@ interface ProjectGridProps {
   maxProjects?: number;
 }
 
+// Projekti kao dosje-redovi tehničkog lista: broj, mono metapodaci,
+// mala crno-bijela snimka i naslov u display pismu.
 export default function ProjectGrid({
   projects,
   showHeading = true,
@@ -19,118 +22,86 @@ export default function ProjectGrid({
   const displayProjects = maxProjects ? projects.slice(0, maxProjects) : projects;
 
   return (
-    <section className="py-20 lg:py-28">
-      <Container>
+    <section className="py-16 lg:py-24">
+      <div className={container}>
         {showHeading && (
-          <div className="flex flex-wrap items-end justify-between gap-4 mb-12">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-dark">
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-4 pb-10 lg:pb-12">
+              <h2
+                className={`${display} text-4xl font-semibold uppercase leading-none md:text-5xl`}
+              >
                 {headingText}
               </h2>
-              <p className="mt-4 text-gray max-w-2xl">
-                Pogledajte neke od naših uspješno realiziranih projekata protupožarne
-                zaštite diljem Hrvatske.
-              </p>
-            </div>
-            {maxProjects && projects.length > maxProjects && (
-              <Link
-                href="/projekti"
-                className="inline-flex items-center text-primary font-semibold hover:underline"
-              >
-                Svi projekti
-                <svg
-                  className="ml-2 w-4 h-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
+              {maxProjects && projects.length > maxProjects && (
+                <Link
+                  href="/projekti"
+                  className={`${mono} text-[11px] uppercase tracking-[0.18em] text-gray underline-offset-4 transition-colors hover:text-foreground hover:underline`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                  />
-                </svg>
-              </Link>
-            )}
-          </div>
+                  Svi projekti →
+                </Link>
+              )}
+            </div>
+          </Reveal>
         )}
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {displayProjects.map((project, index) => (
-            <Link
-              key={project.slug}
-              href={`/projekti/${project.slug}`}
-              className={`group relative rounded-2xl overflow-hidden ${
-                index === 0 ? "md:col-span-2 aspect-[21/9]" : "aspect-[16/10]"
-              }`}
-            >
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent" />
-
-              <div className="absolute inset-0 p-8 flex flex-col justify-end">
-                <div className="flex flex-wrap gap-2 mb-4">
-                  <span className="px-3 py-1 text-xs font-semibold bg-primary text-white rounded-full">
-                    {getCategoryName(project.category)}
-                  </span>
-                  <span className="px-3 py-1 text-xs font-semibold bg-white/20 backdrop-blur-sm text-white rounded-full">
-                    {project.year}
-                  </span>
-                </div>
-                <h3
-                  className={`font-bold text-white group-hover:text-primary transition-colors ${
-                    index === 0 ? "text-2xl sm:text-3xl lg:text-4xl" : "text-xl sm:text-2xl"
-                  }`}
+        <ul className={`border-b ${hairline}`}>
+          {displayProjects.map((project, i) => (
+            <li key={project.slug}>
+              <Reveal delay={Math.min(i, 4) * 0.08}>
+                <Link
+                  href={`/projekti/${project.slug}`}
+                  className={`group block border-t ${hairline} py-6 transition-colors hover:bg-light md:py-8`}
                 >
-                  {project.title}
-                </h3>
-                <p className="mt-2 text-white/70 flex items-center gap-2">
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
+                  <div
+                    className={`${mono} flex flex-wrap items-baseline gap-x-4 gap-y-1 text-[11px] tracking-[0.16em] text-gray`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-                    />
-                  </svg>
-                  {project.location}
-                </p>
-                <div className="mt-4 inline-flex items-center text-white font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                  Pogledaj projekt
-                  <svg
-                    className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                    />
-                  </svg>
-                </div>
-              </div>
-            </Link>
+                    <span>{String(i + 1).padStart(2, "0")}</span>
+                    <span>{project.year}</span>
+                    <span>{project.location}</span>
+                    <span className="ml-auto uppercase">
+                      {getCategoryName(project.category)}
+                    </span>
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-between gap-5 md:gap-8">
+                    <span className="relative hidden aspect-[4/3] w-32 shrink-0 overflow-hidden sm:block md:w-40">
+                      <Image
+                        src={project.image}
+                        alt=""
+                        fill
+                        sizes="160px"
+                        className="object-cover grayscale contrast-[1.05] brightness-[0.85] transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+                      <span
+                        aria-hidden
+                        className="absolute inset-0 bg-primary/25 mix-blend-multiply"
+                      />
+                    </span>
+
+                    <div className="min-w-0 flex-1">
+                      <h3
+                        className={`${display} text-2xl font-medium uppercase leading-tight md:text-3xl`}
+                      >
+                        {project.title}
+                      </h3>
+                      <p className="mt-2 line-clamp-2 max-w-2xl text-sm leading-relaxed text-gray">
+                        {project.description}
+                      </p>
+                    </div>
+
+                    <span
+                      aria-hidden="true"
+                      className={`${mono} shrink-0 text-lg text-gray transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground`}
+                    >
+                      →
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
+            </li>
           ))}
-        </div>
-      </Container>
+        </ul>
+      </div>
     </section>
   );
 }

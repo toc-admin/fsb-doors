@@ -3,12 +3,18 @@
 import { useState } from "react";
 import Modal from "./Modal";
 import Button from "./Button";
+import { hairline, mono } from "@/components/site/tokens";
 
 interface ProductInquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
   productName: string;
 }
+
+// Klase polja obrasca — transparentna podloga, hairline rub, primarni fokus.
+const inputStyles = `w-full border ${hairline} bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-gray/60 outline-none transition-colors focus:border-primary`;
+
+const labelStyles = `${mono} mb-2 block text-[11px] uppercase tracking-[0.2em] text-gray`;
 
 export default function ProductInquiryModal({
   isOpen,
@@ -36,13 +42,13 @@ export default function ProductInquiryModal({
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
+    // Simulacija slanja obrasca
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     setIsSubmitting(false);
     setIsSubmitted(true);
 
-    // Reset after showing success
+    // Nakon prikaza potvrde vrati obrazac u početno stanje
     setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
@@ -66,13 +72,15 @@ export default function ProductInquiryModal({
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title="Zatražite ponudu">
       {isSubmitted ? (
-        <div className="text-center py-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-4">
+        <div className="py-8 text-center">
+          <div
+            className={`mb-5 inline-flex h-14 w-14 items-center justify-center border border-[#b3223d66] text-primary`}
+          >
             <svg
-              className="w-8 h-8"
+              className="h-7 w-7"
               fill="none"
               viewBox="0 0 24 24"
-              strokeWidth={2}
+              strokeWidth={1.5}
               stroke="currentColor"
             >
               <path
@@ -82,25 +90,26 @@ export default function ProductInquiryModal({
               />
             </svg>
           </div>
-          <h3 className="text-lg font-semibold text-dark mb-2">
-            Upit uspješno poslan!
+          <h3
+            className={`${mono} mb-2 text-sm uppercase tracking-[0.16em] text-foreground`}
+          >
+            Upit uspješno poslan
           </h3>
-          <p className="text-gray">Kontaktirat ćemo vas u najkraćem roku.</p>
+          <p className="text-sm text-gray">Kontaktirat ćemo vas u najkraćem roku.</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Product Info */}
-          <div className="p-4 bg-light rounded-lg">
-            <p className="text-sm text-gray">Proizvod</p>
-            <p className="font-semibold text-dark">{productName}</p>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Podaci o proizvodu */}
+          <div className={`border ${hairline} bg-light p-4`}>
+            <p className={`${mono} text-[10px] uppercase tracking-[0.24em] text-gray`}>
+              Proizvod
+            </p>
+            <p className="mt-1.5 text-sm font-medium text-foreground">{productName}</p>
           </div>
 
-          {/* Name */}
+          {/* Ime i prezime */}
           <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-dark mb-1"
-            >
+            <label htmlFor="name" className={labelStyles}>
               Ime i prezime *
             </label>
             <input
@@ -110,17 +119,14 @@ export default function ProductInquiryModal({
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray/20 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              className={inputStyles}
               placeholder="Vaše ime i prezime"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-dark mb-1"
-            >
+            <label htmlFor="email" className={labelStyles}>
               Email *
             </label>
             <input
@@ -130,17 +136,14 @@ export default function ProductInquiryModal({
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray/20 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              className={inputStyles}
               placeholder="vas@email.com"
             />
           </div>
 
-          {/* Phone */}
+          {/* Telefon */}
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-dark mb-1"
-            >
+            <label htmlFor="phone" className={labelStyles}>
               Telefon
             </label>
             <input
@@ -149,17 +152,14 @@ export default function ProductInquiryModal({
               name="phone"
               value={formData.phone}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray/20 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              className={inputStyles}
               placeholder="+385 xx xxx xxxx"
             />
           </div>
 
-          {/* Company */}
+          {/* Tvrtka */}
           <div>
-            <label
-              htmlFor="company"
-              className="block text-sm font-medium text-dark mb-1"
-            >
+            <label htmlFor="company" className={labelStyles}>
               Tvrtka
             </label>
             <input
@@ -168,17 +168,14 @@ export default function ProductInquiryModal({
               name="company"
               value={formData.company}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray/20 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              className={inputStyles}
               placeholder="Naziv tvrtke"
             />
           </div>
 
-          {/* Message */}
+          {/* Poruka */}
           <div>
-            <label
-              htmlFor="message"
-              className="block text-sm font-medium text-dark mb-1"
-            >
+            <label htmlFor="message" className={labelStyles}>
               Poruka / Zahtjevi
             </label>
             <textarea
@@ -187,12 +184,12 @@ export default function ProductInquiryModal({
               rows={4}
               value={formData.message}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray/20 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none"
+              className={`${inputStyles} resize-none`}
               placeholder="Opišite svoje potrebe, dimenzije, količine..."
             />
           </div>
 
-          {/* Submit */}
+          {/* Slanje */}
           <div className="flex gap-3 pt-2">
             <Button
               type="button"
@@ -202,11 +199,7 @@ export default function ProductInquiryModal({
             >
               Odustani
             </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              className="flex-1"
-            >
+            <Button type="submit" variant="primary" className="flex-1">
               {isSubmitting ? (
                 <>
                   <svg

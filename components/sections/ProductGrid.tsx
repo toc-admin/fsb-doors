@@ -1,10 +1,7 @@
-"use client";
-
-import { useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Container from "@/components/ui/Container";
-import { gsap, ScrollTrigger } from "@/lib/animations";
+import Reveal from "@/components/site/Reveal";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 
 const products = [
   {
@@ -46,178 +43,111 @@ interface ProductGridProps {
   limit?: number;
 }
 
+// Tehnički indeks proizvodnog programa — numerirani redovi kataloškog
+// lista umjesto kartica, u idiomu koncepta "Inženjering".
 export default function ProductGrid({ showHeading = true, limit }: ProductGridProps) {
   const displayProducts = limit ? products.slice(0, limit) : products;
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
-      // Heading animation
-      if (headingRef.current && showHeading) {
-        const children = headingRef.current.children;
-        gsap.fromTo(
-          children,
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: headingRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-
-      // Cards staggered animation
-      if (cardsRef.current) {
-        const cards = cardsRef.current.querySelectorAll(":scope > a");
-        gsap.fromTo(
-          cards,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: cardsRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-
-      // Button animation
-      if (buttonRef.current && showHeading) {
-        gsap.fromTo(
-          buttonRef.current,
-          { y: 30, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: buttonRef.current,
-              start: "top 90%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-    }, section);
-
-    return () => ctx.revert();
-  }, [showHeading]);
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-white">
-      <Container>
+    <section className="py-20 lg:py-28">
+      <div className={container}>
         {showHeading && (
-          <div ref={headingRef} className="text-center mb-20">
-            <span className="inline-block px-4 py-1.5 text-sm font-semibold text-primary bg-primary/10 rounded-full mb-6">
-              Naši proizvodi
-            </span>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark leading-tight">
-              Protupožarna vrata<br />
-              <span className="text-primary">vrhunske kvalitete</span>
-            </h2>
-            <p className="mt-6 text-xl text-gray max-w-2xl mx-auto">
-              Širok asortiman certificiranih protupožarnih vrata za sve vrste objekata i namjena.
-            </p>
-          </div>
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-4 pb-10 lg:pb-14">
+              <div>
+                <p className={eyebrow}>Indeks / Proizvodi</p>
+                <h2
+                  className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+                >
+                  Proizvodni program
+                </h2>
+              </div>
+              <p className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
+                Certificirana protupožarna vrata — izrada po mjeri
+              </p>
+            </div>
+          </Reveal>
         )}
 
-        <div ref={cardsRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-          {displayProducts.map((product, index) => (
-            <Link
-              key={index}
-              href={product.href}
-              className="group relative bg-light rounded-3xl overflow-hidden card-lift"
-            >
-              {/* Image */}
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src={product.image}
-                  alt={product.title}
-                  fill
-                  className="object-cover img-zoom"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark/60 via-transparent to-transparent" />
+        <Reveal>
+          <ul className={`border-b ${hairline}`}>
+            {displayProducts.map((product, i) => (
+              <li key={product.href}>
+                <Link
+                  href={product.href}
+                  className={`group grid grid-cols-12 items-center gap-x-4 gap-y-3 border-t ${hairline} py-6 transition-colors hover:bg-light md:py-7`}
+                >
+                  <span className={`${mono} col-span-2 text-sm text-gray md:col-span-1`}>
+                    0{i + 1}
+                  </span>
 
-                {/* Features badges */}
-                <div className="absolute bottom-4 left-4 flex flex-wrap gap-2">
-                  {product.features.map((feature, i) => (
-                    <span
-                      key={i}
-                      className="px-3 py-1 text-xs font-medium text-white bg-white/20 backdrop-blur-sm rounded-full"
-                    >
-                      {feature}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Content */}
-              <div className="p-8 lg:p-10">
-                <h3 className="text-2xl lg:text-3xl font-bold text-dark group-hover:text-primary transition-colors">
-                  {product.title}
-                </h3>
-                <p className="mt-4 text-gray text-lg leading-relaxed">
-                  {product.description}
-                </p>
-                <div className="mt-6 inline-flex items-center text-primary font-semibold text-lg">
-                  <span>Saznajte više</span>
-                  <svg
-                    className="ml-3 h-5 w-5 group-hover:translate-x-2 transition-transform"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={2}
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+                  <span className="relative col-span-10 hidden aspect-[4/3] overflow-hidden md:col-span-2 md:block">
+                    <Image
+                      src={product.image}
+                      alt={product.title}
+                      fill
+                      sizes="220px"
+                      className="object-cover grayscale contrast-[1.05] brightness-[0.85] transition-transform duration-500 group-hover:scale-[1.03]"
                     />
-                  </svg>
-                </div>
-              </div>
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-primary/25 mix-blend-multiply"
+                    />
+                  </span>
 
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 rounded-bl-[4rem] group-hover:bg-primary/10 transition-colors" />
-            </Link>
-          ))}
-        </div>
+                  <span className="col-span-10 md:col-span-5 md:pl-2 lg:pl-6">
+                    <span
+                      className={`${display} block text-2xl font-medium uppercase leading-tight md:text-3xl`}
+                    >
+                      {product.title}
+                    </span>
+                    <span className="mt-2 block max-w-lg text-sm leading-relaxed text-gray">
+                      {product.description}
+                    </span>
+                  </span>
 
-        {/* View all button */}
+                  <span className="col-span-10 col-start-3 flex flex-wrap content-center gap-2 md:col-span-3 md:col-start-auto md:justify-end">
+                    {product.features.map((f) => (
+                      <span
+                        key={f}
+                        className={`${mono} border px-2.5 py-1.5 text-[11px] tracking-[0.08em] ${
+                          f.startsWith("EI")
+                            ? "border-[#b3223d66] text-primary"
+                            : `${hairline} text-gray`
+                        }`}
+                      >
+                        {f}
+                      </span>
+                    ))}
+                  </span>
+
+                  <span
+                    aria-hidden="true"
+                    className={`${mono} col-span-12 hidden text-right text-lg text-gray transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground md:col-span-1 md:block`}
+                  >
+                    →
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        {/* Poveznica na sve proizvode */}
         {showHeading && (
-          <div ref={buttonRef} className="mt-16 text-center">
-            <Link
-              href="/proizvodi"
-              className="inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold text-primary border-2 border-primary rounded-full hover:bg-primary hover:text-white transition-all"
-            >
-              Pogledajte sve proizvode
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-              </svg>
-            </Link>
-          </div>
+          <Reveal>
+            <div className="mt-12 flex justify-center">
+              <Link
+                href="/proizvodi"
+                className={`${mono} inline-flex items-center gap-3 border ${hairline} px-8 py-4 text-[13px] font-medium uppercase tracking-[0.16em] text-foreground transition-colors hover:border-[#8a8f98]`}
+              >
+                Pogledajte sve proizvode
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </Reveal>
         )}
-      </Container>
+      </div>
     </section>
   );
 }

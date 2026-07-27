@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import Container from "@/components/ui/Container";
-import { gsap, ScrollTrigger } from "@/lib/animations";
+import { useState } from "react";
+import Reveal from "@/components/site/Reveal";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 
 const testimonials = [
   {
@@ -28,119 +28,74 @@ const testimonials = [
   },
 ];
 
+// Izjave klijenata kao dosje: jedan citat u kadru, mono navigacija po zapisima.
 export default function Testimonials() {
   const [active, setActive] = useState(0);
-  const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const quoteRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const ctx = gsap.context(() => {
-      // Heading animation
-      if (headingRef.current) {
-        const children = headingRef.current.children;
-        gsap.fromTo(
-          children,
-          { y: 40, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: headingRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-
-      // Quote card animation
-      if (quoteRef.current) {
-        gsap.fromTo(
-          quoteRef.current,
-          { y: 60, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: quoteRef.current,
-              start: "top 85%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      }
-    }, section);
-
-    return () => ctx.revert();
-  }, []);
+  const current = testimonials[active];
 
   return (
-    <section ref={sectionRef} className="py-24 lg:py-32 bg-light overflow-hidden">
-      <Container>
-        <div ref={headingRef} className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 text-sm font-semibold text-primary bg-primary/10 rounded-full mb-6">
-            Što kažu naši klijenti
-          </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-dark leading-tight">
-            Povjerenje koje smo izgradili
-          </h2>
-        </div>
+    <section aria-labelledby="reference-naslov" className="py-20 lg:py-28">
+      <div className={container}>
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-4 pb-10 lg:pb-14">
+            <div>
+              <p className={eyebrow}>List T—01 / Reference klijenata</p>
+              <h2
+                id="reference-naslov"
+                className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+              >
+                Povjerenje koje smo izgradili
+              </h2>
+            </div>
+            <p className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
+              {testimonials.length} zapisa — hoteli / industrija / arhitektura
+            </p>
+          </div>
+        </Reveal>
 
-        <div className="max-w-4xl mx-auto">
-          {/* Quote */}
-          <div ref={quoteRef} className="relative bg-white rounded-3xl p-10 lg:p-16 shadow-xl">
-            {/* Quote mark */}
-            <div className="absolute top-8 left-8 text-primary/10">
-              <svg className="w-20 h-20" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-              </svg>
+        <Reveal>
+          <div className={`border ${hairline} bg-light`}>
+            {/* Zaglavlje zapisa */}
+            <div
+              className={`${mono} flex flex-wrap items-baseline gap-x-4 gap-y-1 border-b ${hairline} px-6 py-3 text-[11px] uppercase tracking-[0.2em] text-gray md:px-10`}
+            >
+              <span className="text-primary">Zapis {String(active + 1).padStart(2, "0")}</span>
+              <span>{current.company}</span>
+              <span className="ml-auto">{current.initials}</span>
             </div>
 
-            <blockquote className="relative z-10">
-              <p className="text-xl lg:text-2xl text-dark leading-relaxed font-medium">
-                &ldquo;{testimonials[active].quote}&rdquo;
+            <blockquote className="px-6 py-10 md:px-10 md:py-14">
+              <p className="max-w-3xl text-xl leading-relaxed text-foreground md:text-2xl">
+                &ldquo;{current.quote}&rdquo;
               </p>
+              <footer
+                className={`${mono} mt-8 text-[12px] uppercase tracking-[0.18em] text-gray`}
+              >
+                — {current.author} / {current.role}, {current.company}
+              </footer>
             </blockquote>
-
-            <div className="mt-10 flex items-center gap-5">
-              <div className="w-[60px] h-[60px] rounded-full bg-primary flex items-center justify-center text-white font-bold text-xl">
-                {testimonials[active].initials}
-              </div>
-              <div>
-                <div className="font-bold text-dark text-lg">{testimonials[active].author}</div>
-                <div className="text-gray">
-                  {testimonials[active].role}, {testimonials[active].company}
-                </div>
-              </div>
-            </div>
           </div>
 
-          {/* Navigation */}
-          <div className="mt-10 flex justify-center gap-4">
-            {testimonials.map((_, index) => (
+          {/* Navigacija po zapisima — kvadratni mono indeksi */}
+          <div className="mt-6 flex gap-3">
+            {testimonials.map((t, index) => (
               <button
-                key={index}
+                key={t.author}
                 onClick={() => setActive(index)}
-                className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                aria-label={`Izjava ${index + 1} — ${t.author}`}
+                aria-pressed={active === index}
+                className={`${mono} border px-3.5 py-2 text-[11px] tracking-[0.16em] transition-colors ${
                   active === index
-                    ? "bg-primary w-10"
-                    : "bg-gray/30 hover:bg-gray/50"
+                    ? "border-primary text-primary"
+                    : `${hairline} text-gray hover:border-[#8a8f98] hover:text-foreground`
                 }`}
-                aria-label={`Testimonial ${index + 1}`}
-              />
+              >
+                {String(index + 1).padStart(2, "0")}
+              </button>
             ))}
           </div>
-        </div>
-      </Container>
+        </Reveal>
+      </div>
     </section>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, ReactNode } from "react";
-import { gsap, ScrollTrigger } from "@/lib/animations";
+import { gsap } from "@/lib/animations";
 
 interface ScrollRevealProps {
   children: ReactNode;
@@ -15,6 +15,8 @@ interface ScrollRevealProps {
   start?: string;
 }
 
+// Scroll-reveal s istim API-jem kao prije, ali poštuje prefers-reduced-motion
+// (kao site/Reveal): bez efekta element ostaje normalno vidljiv.
 export default function ScrollReveal({
   children,
   direction = "up",
@@ -32,34 +34,33 @@ export default function ScrollReveal({
     const element = elementRef.current;
     if (!element) return;
 
-    // Define from and to states
-    const fromState: gsap.TweenVars = { opacity: 0 };
-    const toState: gsap.TweenVars = { opacity: 1, x: 0, y: 0, scale: 1 };
+    const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const fromState: gsap.TweenVars = { opacity: 0 };
+        const toState: gsap.TweenVars = { opacity: 1, x: 0, y: 0, scale: 1 };
 
-    if (direction === "up") fromState.y = distance;
-    if (direction === "down") fromState.y = -distance;
-    if (direction === "left") fromState.x = distance;
-    if (direction === "right") fromState.x = -distance;
-    if (scale) fromState.scale = scale;
+        if (direction === "up") fromState.y = distance;
+        if (direction === "down") fromState.y = -distance;
+        if (direction === "left") fromState.x = distance;
+        if (direction === "right") fromState.x = -distance;
+        if (scale) fromState.scale = scale;
 
-    const animation = gsap.fromTo(element, fromState, {
-      ...toState,
-      duration,
-      delay,
-      ease: "power2.out",
-      scrollTrigger: {
-        trigger: element,
-        start,
-        toggleActions: once ? "play none none none" : "play reverse play reverse",
-      },
-    });
+        gsap.fromTo(element, fromState, {
+          ...toState,
+          duration,
+          delay,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: element,
+            start,
+            toggleActions: once ? "play none none none" : "play reverse play reverse",
+          },
+        });
+      });
+    }, element);
 
-    return () => {
-      animation.kill();
-      ScrollTrigger.getAll()
-        .filter((t) => t.trigger === element)
-        .forEach((t) => t.kill());
-    };
+    return () => ctx.revert();
   }, [direction, delay, duration, distance, scale, once, start]);
 
   return (

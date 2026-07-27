@@ -53,7 +53,7 @@ export const PROJECT_CATEGORIES = [
     name: "Tuneli",
     description:
       "Specijalizirana vrata za cestovne i željezničke tunele — evakuacijski prolazi i tehničke niše u najzahtjevnijim uvjetima eksploatacije.",
-    image: "/images/celicna-vrata.webp",
+    image: "/images/foto/tunel-vrata-767m.webp",
   },
 ] as const;
 
@@ -196,10 +196,12 @@ export const projects: Project[] = [
     client: "Hrvatske autoceste",
     location: "Autocesta A1, Hrvatska",
     year: "2021",
-    image: "/images/celicna-vrata.webp",
+    image: "/images/foto/tunel-siroko.webp",
     gallery: [
-      "/images/celicna-vrata.webp",
-      "/images/industrija.webp",
+      "/images/foto/tunel-vrata-767m.webp",
+      "/images/foto/tunel-vrata-frontal.webp",
+      "/images/foto/tunel-svjetla.webp",
+      "/images/foto/tunel-vrata-detalj.webp",
     ],
     products: ["fsd-1-puna-celicna-jednokrilna-vrata", "fsd-2-puna-celicna-dvokrilna-vrata"],
     category: "tuneli",

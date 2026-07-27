@@ -1,17 +1,18 @@
+import { hairline, mono } from "@/components/site/tokens";
 import { MARQUEE_ITEMS as items } from "@/lib/site-content";
 
+// Tehnički ticker: mono traka između hairline linija, kvadratni separatori.
 export default function Marquee() {
-
   return (
-    <section className="py-6 bg-primary overflow-hidden">
+    <section aria-hidden="true" className={`overflow-hidden border-y ${hairline} py-4`}>
       <div className="animate-marquee flex whitespace-nowrap">
         {[...items, ...items].map((item, index) => (
           <span
             key={index}
-            className="mx-8 text-xl md:text-2xl font-bold text-white flex items-center"
+            className={`${mono} mx-6 flex items-center text-[12px] uppercase tracking-[0.24em] text-gray`}
           >
             {item}
-            <span className="ml-8 text-white/40">✦</span>
+            <span className="ml-12 block h-1.5 w-1.5 bg-primary" />
           </span>
         ))}
       </div>

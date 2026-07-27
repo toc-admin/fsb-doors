@@ -1,8 +1,7 @@
 import { Metadata } from "next";
-import Image from "next/image";
-import Container from "@/components/ui/Container";
-import Badge from "@/components/ui/Badge";
 import ContactForm from "@/components/sections/ContactForm";
+import Reveal from "@/components/site/Reveal";
+import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 
 export const metadata: Metadata = {
   title: "Kontakt | FSB Doors",
@@ -25,75 +24,75 @@ const locations = [
 export default function ContactPage() {
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative py-20 lg:py-28 bg-dark overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/kontakt.webp"
-            alt="Kontakt"
-            fill
-            className="object-cover opacity-30"
-          />
-        </div>
-        <Container className="relative z-10">
+      {/* Zaglavlje lista */}
+      <section className={`border-b ${hairline} bg-dark py-16 lg:py-24`}>
+        <Reveal className={container}>
           <div className="max-w-3xl">
-            <Badge variant="light">Kontakt</Badge>
-            <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-white">
+            <p className={eyebrow}>List KT—01 / Kontakt</p>
+            <h1
+              className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+            >
               Javite nam se
             </h1>
-            <p className="mt-6 text-xl text-white/80 leading-relaxed">
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-gray md:text-lg">
               Imate pitanja o našim proizvodima ili uslugama? Naš tim stoji vam na
               raspolaganju za sve informacije i besplatno savjetovanje.
             </p>
           </div>
-        </Container>
+        </Reveal>
       </section>
 
       <ContactForm />
 
-      {/* Map Section */}
-      <section className="py-20 lg:py-28 bg-light">
-        <Container>
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-dark">
-              Posjetite nas
-            </h2>
-            <p className="mt-4 text-gray">
-              Dvije lokacije u Zagrebu
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {locations.map((location) => (
-              <div key={location.name}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
-                    <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-bold text-dark">{location.name}</p>
-                    <p className="text-sm text-gray">{location.address}</p>
-                  </div>
-                </div>
-                <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray/20">
-                  <iframe
-                    src={location.embedUrl}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="absolute inset-0"
-                    title={`${location.name} lokacija`}
-                  />
-                </div>
+      {/* Lokacije — dvije karte kao tehnički prilozi */}
+      <section aria-labelledby="lokacije-naslov" className={`border-t ${hairline} bg-light py-20 lg:py-28`}>
+        <div className={container}>
+          <Reveal>
+            <div className="flex flex-wrap items-end justify-between gap-4 pb-10 lg:pb-14">
+              <div>
+                <p className={eyebrow}>List KT—03 / Lokacije</p>
+                <h2
+                  id="lokacije-naslov"
+                  className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
+                >
+                  Posjetite nas
+                </h2>
               </div>
+              <p className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
+                2 lokacije — Zagreb
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="grid gap-10 md:grid-cols-2 md:gap-8">
+            {locations.map((location, index) => (
+              <Reveal key={location.name} delay={index * 0.08}>
+                <figure>
+                  <figcaption
+                    className={`${mono} mb-3 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-[11px] uppercase tracking-[0.2em] text-gray`}
+                  >
+                    <span className="text-primary">L.{index + 1}</span>
+                    <span className="text-foreground">{location.name}</span>
+                    <span>{location.address}</span>
+                  </figcaption>
+                  <div className={`relative aspect-video overflow-hidden border ${hairline} bg-dark`}>
+                    <iframe
+                      src={location.embedUrl}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="absolute inset-0"
+                      title={`${location.name} lokacija`}
+                    />
+                  </div>
+                </figure>
+              </Reveal>
             ))}
           </div>
-        </Container>
+        </div>
       </section>
     </>
   );
