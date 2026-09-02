@@ -39,12 +39,6 @@ export const COMPANY_STATS: CompanyStat[] = [
     label: "Minuta vatrootpornosti",
     description: "Najviša klasa EI120",
   },
-  {
-    value: 8,
-    suffix: "",
-    label: "Sektora primjene",
-    description: "Od bolnica do tunela",
-  },
 ];
 
 export interface Feature {
@@ -58,7 +52,7 @@ export const FEATURES: Feature[] = [
     id: "razvoj-i-certifikacija",
     title: "Razvoj i certifikacija",
     description:
-      "Vlastiti razvojni tim kontinuirano razvija i unapređuje naša rješenja, a proizvode kroz ispitivanja u akreditiranim institucijama vodimo do potrebnih certifikata.",
+      "Vlastiti odjel za istraživanje i razvoj kontinuirano razvija i unapređuje naša rješenja, a proizvode kroz ispitivanja u akreditiranim tijelima vodimo do potrebnih certifikata.",
   },
   {
     id: "strucno-savjetovanje",
@@ -108,18 +102,18 @@ export const PROCESS_STEPS: ProcessStep[] = [
       "Analiziramo vaše potrebe i zahtjeve projekta te savjetujemo o optimalnim rješenjima i tehničkim specifikacijama.",
   },
   {
-    id: "izmjera",
+    id: "ponuda",
     number: "02",
-    title: "Izmjera na lokaciji",
+    title: "Ponuda i ugovaranje",
     description:
-      "Izlazimo na lokaciju i obavljamo preciznu izmjeru svih otvora kako bi svaki proizvod savršeno odgovarao vašem objektu.",
+      "Izrađujemo detaljnu ponudu prema zahtjevima projekta te ugovaramo opseg, rokove i uvjete isporuke.",
   },
   {
-    id: "sheme",
+    id: "izmjera",
     number: "03",
-    title: "Ponuda i tehničke sheme",
+    title: "Izmjera na lokaciji i izrada shema",
     description:
-      "Izrađujemo detaljnu ponudu i tehničke sheme. Nakon vaše potvrde shema, proizvod ide u proizvodnju.",
+      "Izlazimo na lokaciju, obavljamo preciznu izmjeru svih otvora i izrađujemo tehničke sheme. Nakon vaše potvrde shema, proizvod ide u proizvodnju.",
   },
   {
     id: "proizvodnja",
@@ -141,12 +135,12 @@ export const RND_CERTIFICATION = {
   label: "Razvoj i certifikacija",
   title: "Vlastiti razvoj, ispitano i certificirano",
   paragraphs: [
-    "FSB Doors ima vlastiti razvojni tim koji kontinuirano razvija i unapređuje naša protupožarna rješenja — od konstrukcije i materijala do najsitnijih detalja izvedbe.",
-    "Svaki proizvod prolazi ispitivanja u akreditiranim institucijama (LTM, Institut IGH i dr.), a naš tim vodi ga kroz cijeli proces certifikacije do potrebnih oznaka i klasa otpornosti.",
+    "FSB Doors ima vlastiti odjel za istraživanje i razvoj koji kontinuirano razvija i unapređuje naša protupožarna rješenja — od konstrukcije i materijala do najsitnijih detalja izvedbe.",
+    "Svaki proizvod prolazi ispitivanja u akreditiranim tijelima (LTM, Institut IGH i dr.), a naš tim vodi ga kroz cijeli proces certifikacije do potrebnih oznaka i klasa otpornosti.",
   ],
   points: [
-    "Vlastiti razvojni tim i kontinuirano unapređenje proizvoda",
-    "Ispitivanja u akreditiranim institucijama (LTM, Institut IGH i dr.)",
+    "Vlastiti odjel za istraživanje i razvoj te kontinuirano unapređenje proizvoda",
+    "Ispitivanja u akreditiranim tijelima (LTM, Institut IGH i dr.)",
     "Vođenje proizvoda kroz cijeli proces certifikacije",
     "Klase otpornosti od EI30 do EI120",
   ],

@@ -9,7 +9,7 @@ export default function Stats() {
   return (
     <section aria-label="Podaci o tvrtki" className={`border-y ${hairline} bg-dark`}>
       <Reveal className={container}>
-        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {stats.map((stat) => (
             <div
               key={stat.label}

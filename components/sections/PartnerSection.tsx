@@ -17,7 +17,7 @@ const services = [
   },
   {
     title: "Razvoj i certifikacija",
-    description: "Vlastiti razvoj, ispitan u akreditiranim institucijama",
+    description: "Vlastiti razvoj, ispitan u akreditiranim tijelima",
   },
 ];
 

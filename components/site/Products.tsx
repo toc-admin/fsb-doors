@@ -26,7 +26,7 @@ export default function Products() {
           </div>
         </Reveal>
 
-        <Reveal>
+        <Reveal selector="li" stagger={0.08}>
           <ul className={`border-b ${hairline}`}>
             {productCategories.map((cat, i) => (
               <li key={cat.slug}>

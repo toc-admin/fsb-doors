@@ -26,14 +26,19 @@ export default function Projects() {
               id="projekti-naslov"
               className={`${display} mt-4 max-w-3xl text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
             >
-              Ugrađeno u osam sektora
+              Jedna sigurnost. Brojne primjene
             </h2>
+            <p className="mt-6 max-w-2xl text-base leading-relaxed text-gray">
+              Naša požarna vrata primjenjuju se u različitim sektorima — od
+              stambenih i poslovnih objekata do industrije, zdravstva,
+              hotelijerstva i javnih prostora.
+            </p>
           </div>
         </Reveal>
 
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
           {/* Indeks sektora */}
-          <Reveal className="lg:col-span-5">
+          <Reveal className="lg:col-span-5" selector="li" stagger={0.06}>
             <p className={`${mono} pb-4 text-[11px] uppercase tracking-[0.24em] text-gray`}>
               Sektori primjene
             </p>
@@ -63,7 +68,7 @@ export default function Projects() {
           </Reveal>
 
           {/* Izdvojeni projekti — dosje-redovi */}
-          <Reveal className="lg:col-span-7">
+          <Reveal className="lg:col-span-7" selector="li" stagger={0.1}>
             <div className="flex items-baseline justify-between gap-4 pb-4">
               <p className={`${mono} text-[11px] uppercase tracking-[0.24em] text-gray`}>
                 Izdvojeni projekti

@@ -1,3 +1,4 @@
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import { COMPANY_STATS } from "@/lib/site-content";
 import Reveal from "./Reveal";
 import { container, display, hairline, mono } from "./tokens";
@@ -6,8 +7,8 @@ import { container, display, hairline, mono } from "./tokens";
 export default function StatsStrip() {
   return (
     <section aria-label="Podaci o tvrtki" className={`border-y ${hairline} bg-dark`}>
-      <Reveal className={container}>
-        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+      <Reveal className={container} selector="dl > div" stagger={0.12}>
+        <dl className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {COMPANY_STATS.map((stat) => (
             <div
               key={stat.label}
@@ -19,8 +20,7 @@ export default function StatsStrip() {
                 {stat.label}
               </dt>
               <dd className={`${display} order-1 text-5xl font-semibold leading-none md:text-6xl`}>
-                {stat.value}
-                {stat.suffix}
+                <AnimatedCounter value={stat.value} suffix={stat.suffix} duration={2} />
               </dd>
               <dd className="order-3 mt-1.5 text-xs text-gray">{stat.description}</dd>
             </div>

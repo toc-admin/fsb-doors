@@ -75,7 +75,7 @@ export default function Rnd() {
               </div>
             </Reveal>
 
-            <Reveal>
+            <Reveal selector="li" stagger={0.08}>
               <ul className={`mt-10 border-b ${hairline}`}>
                 {RND_CERTIFICATION.points.map((point, i) => (
                   <li

@@ -5,16 +5,21 @@ import { gsap } from "@/lib/animations";
 
 // Suzdržani scroll-reveal: blagi pomak + fade, samo kad korisnik ne traži
 // smanjeno kretanje. Bez efekta element ostaje normalno vidljiv.
+// Uz `selector` animiraju se pojedinačne stavke unutar omota (stagger).
 export default function Reveal({
   children,
   className,
   y = 24,
   delay = 0,
+  selector,
+  stagger = 0.1,
 }: {
   children: ReactNode;
   className?: string;
   y?: number;
   delay?: number;
+  selector?: string;
+  stagger?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -25,8 +30,10 @@ export default function Reveal({
     const ctx = gsap.context(() => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
+        const targets = selector ? el.querySelectorAll(selector) : el;
+        if (selector && (targets as NodeListOf<Element>).length === 0) return;
         gsap.fromTo(
-          el,
+          targets,
           { y, opacity: 0 },
           {
             y: 0,
@@ -34,6 +41,7 @@ export default function Reveal({
             duration: 0.7,
             delay,
             ease: "power2.out",
+            stagger: selector ? stagger : 0,
             scrollTrigger: {
               trigger: el,
               start: "top 88%",
@@ -45,7 +53,7 @@ export default function Reveal({
     }, el);
 
     return () => ctx.revert();
-  }, [y, delay]);
+  }, [y, delay, selector, stagger]);
 
   return (
     <div ref={ref} className={className}>

@@ -19,7 +19,7 @@ export default function Process() {
           </div>
         </Reveal>
 
-        <Reveal>
+        <Reveal selector="li" stagger={0.12}>
           <ol className={`relative lg:grid lg:grid-cols-5 lg:border-t ${hairline}`}>
             {PROCESS_STEPS.map((step, i) => (
               <li
