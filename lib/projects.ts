@@ -1,58 +1,73 @@
+// Finalna klasifikacija "područja primjene" — dostavio klijent 2026-09-16.
 export const PROJECT_CATEGORIES = [
   {
-    slug: "bolnice",
-    name: "Bolnice",
+    slug: "bolnice-i-zdravstvene-ustanove",
+    name: "Bolnice i zdravstvene ustanove",
     description:
       "Protupožarna rješenja za bolnice i zdravstvene ustanove — od odjela i operacijskih sala do evakuacijskih puteva, uz minimalne smetnje za rad ustanove.",
     image: "/images/fiksne-ostakljene-stijene.webp",
   },
   {
-    slug: "hoteli",
-    name: "Hoteli",
+    slug: "odgojno-obrazovne-ustanove",
+    name: "Odgojno-obrazovne ustanove",
     description:
-      "Vrata koja spajaju sigurnost gostiju i estetiku interijera — rješenja za hotele svih kategorija, uključujući zaštićene i povijesne objekte.",
-    image: "/images/ugostiteljstvo.webp",
-  },
-  {
-    slug: "ugostiteljstvo",
-    name: "Ugostiteljstvo",
-    description:
-      "Protupožarna zaštita za restorane, kafiće, wellness i konferencijske centre — sigurnost kuhinja, tehničkih prostora i evakuacijskih izlaza.",
-    image: "/images/ugostiteljstvo.webp",
-  },
-  {
-    slug: "stambene-gradevine",
-    name: "Stambene građevine",
-    description:
-      "Rješenja za stambene zgrade i komplekse — ulazna vrata stanova, strojarnice, garaže i zajednički prostori u skladu s propisima protupožarne zaštite.",
+      "Sigurnost najmlađih na prvom mjestu — protupožarna vrata za škole, vrtiće, fakultete i sportske dvorane, prilagođena svakodnevnom intenzivnom korištenju.",
     image: "/images/javni-i-stambeni-objekti.webp",
   },
   {
-    slug: "poslovne-gradevine",
-    name: "Poslovne građevine",
+    slug: "hoteli-i-ugostiteljski-objekti",
+    name: "Hoteli i ugostiteljski objekti",
     description:
-      "Suvremena protupožarna vrata za urede, poslovne centre, banke i trgovačke centre — sigurnost bez kompromisa u dizajnu.",
-    image: "/images/poslovni-objekti.webp",
+      "Vrata koja spajaju sigurnost gostiju i estetiku interijera — rješenja za hotele, restorane, wellness i konferencijske centre svih kategorija.",
+    image: "/images/ugostiteljstvo.webp",
   },
   {
-    slug: "industrijske-gradevine",
-    name: "Industrijske građevine",
+    slug: "industrijski-i-proizvodni-objekti",
+    name: "Industrijski i proizvodni objekti",
     description:
       "Robusna rješenja za proizvodne hale, skladišta i energetska postrojenja — čelična vrata najviših klasa otpornosti, uključujući klizne izvedbe.",
     image: "/images/industrija.webp",
   },
   {
-    slug: "skole-i-vrtici",
-    name: "Škole i vrtići",
+    slug: "javni-objekti-i-ustanove",
+    name: "Javni objekti i ustanove",
     description:
-      "Sigurnost najmlađih na prvom mjestu — protupožarna vrata za škole, vrtiće i sportske dvorane, prilagođena svakodnevnom intenzivnom korištenju.",
+      "Protupožarna zaštita za objekte javne namjene — uprave, sudove, knjižnice i ustanove s velikim protokom ljudi i strogim zahtjevima evakuacije.",
     image: "/images/javni-i-stambeni-objekti.webp",
   },
   {
-    slug: "tuneli",
-    name: "Tuneli",
+    slug: "trgovacki-i-prodajni-centri",
+    name: "Trgovački i prodajni centri",
     description:
-      "Specijalizirana vrata za cestovne i željezničke tunele — evakuacijski prolazi i tehničke niše u najzahtjevnijim uvjetima eksploatacije.",
+      "Rješenja za trgovačke centre i prodajne prostore — od velikih kliznih vrata za skladišta do ostakljenih stijena koje ne narušavaju izlog i prolaz kupaca.",
+    image: "/images/poslovni-objekti.webp",
+  },
+  {
+    slug: "stambene-i-poslovne-zgrade",
+    name: "Stambene i poslovne zgrade i objekti",
+    description:
+      "Rješenja za stambene i poslovne zgrade — ulazna vrata stanova, uredi, strojarnice, garaže i zajednički prostori u skladu s propisima protupožarne zaštite.",
+    image: "/images/poslovni-objekti.webp",
+  },
+  {
+    slug: "povijesni-i-zasticeni-objekti",
+    name: "Povijesni i zaštićeni objekti",
+    description:
+      "Suvremena sigurnost u zaštićenim prostorima — izvedbe po mjeri usklađene s konzervatorskim uvjetima, uz očuvanje povijesnog karaktera objekta.",
+    image: "/images/ostakljena-vrata.webp",
+  },
+  {
+    slug: "kulturni-i-sakralni-objekti",
+    name: "Kulturni i sakralni objekti",
+    description:
+      "Protupožarna zaštita za muzeje, kazališta, dvorane i sakralne prostore — diskretna rješenja koja štite posjetitelje i vrijednu baštinu.",
+    image: "/images/foto/ostakljena-vrata-atrij.webp",
+  },
+  {
+    slug: "prometna-infrastruktura",
+    name: "Prometna infrastruktura",
+    description:
+      "Specijalizirana vrata za tunele, željeznicu i zračne luke — evakuacijski prolazi i tehničke niše u najzahtjevnijim uvjetima eksploatacije.",
     image: "/images/foto/tunel-vrata-767m.webp",
   },
 ] as const;
@@ -90,7 +105,7 @@ export const projects: Project[] = [
       "/images/poslovni-objekti.webp",
     ],
     products: ["fgd-1-ostakljena-jednokrilna-vrata", "fgd-2-ostakljena-dvokrilna-vrata"],
-    category: "hoteli",
+    category: "hoteli-i-ugostiteljski-objekti",
   },
   {
     slug: "arena-centar-zagreb",
@@ -106,7 +121,7 @@ export const projects: Project[] = [
       "/images/celicna-vrata.webp",
     ],
     products: ["fsd-1-puna-celicna-jednokrilna-vrata", "fsd-4-celicna-klizna-vrata", "fgd-1-ostakljena-jednokrilna-vrata"],
-    category: "poslovne-gradevine",
+    category: "trgovacki-i-prodajni-centri",
   },
   {
     slug: "podravka-tvornica",
@@ -122,7 +137,7 @@ export const projects: Project[] = [
       "/images/industrija.webp",
     ],
     products: ["fsd-1-puna-celicna-jednokrilna-vrata", "fsd-2-puna-celicna-dvokrilna-vrata", "fsd-4-celicna-klizna-vrata"],
-    category: "industrijske-gradevine",
+    category: "industrijski-i-proizvodni-objekti",
   },
   {
     slug: "klinicka-bolnica-dubrava",
@@ -138,7 +153,7 @@ export const projects: Project[] = [
       "/images/ostakljena-vrata.webp",
     ],
     products: ["fgd-1-ostakljena-jednokrilna-vrata", "fgw-1-fiksna-staklena-stijena", "fsd-1-puna-celicna-jednokrilna-vrata"],
-    category: "bolnice",
+    category: "bolnice-i-zdravstvene-ustanove",
   },
   {
     slug: "restoran-event-centar-zagreb",
@@ -154,7 +169,7 @@ export const projects: Project[] = [
       "/images/ostakljena-vrata.webp",
     ],
     products: ["fgd-1-ostakljena-jednokrilna-vrata", "fsd-1-puna-celicna-jednokrilna-vrata"],
-    category: "ugostiteljstvo",
+    category: "hoteli-i-ugostiteljski-objekti",
   },
   {
     slug: "stambeni-kompleks-zagreb",
@@ -170,7 +185,7 @@ export const projects: Project[] = [
       "/images/revizijska-vrata.webp",
     ],
     products: ["fsd-1-puna-celicna-jednokrilna-vrata", "fad-1-zidna-revizijska-vrata"],
-    category: "stambene-gradevine",
+    category: "stambene-i-poslovne-zgrade",
   },
   {
     slug: "osnovna-skola-split",
@@ -186,7 +201,7 @@ export const projects: Project[] = [
       "/images/celicna-vrata.webp",
     ],
     products: ["fsd-1-puna-celicna-jednokrilna-vrata", "fgd-1-ostakljena-jednokrilna-vrata"],
-    category: "skole-i-vrtici",
+    category: "odgojno-obrazovne-ustanove",
   },
   {
     slug: "cestovni-tunel-a1",
@@ -204,7 +219,7 @@ export const projects: Project[] = [
       "/images/foto/tunel-vrata-detalj.webp",
     ],
     products: ["fsd-1-puna-celicna-jednokrilna-vrata", "fsd-2-puna-celicna-dvokrilna-vrata"],
-    category: "tuneli",
+    category: "prometna-infrastruktura",
   },
 ];
 

@@ -8,7 +8,7 @@ import {
 import Reveal from "./Reveal";
 import { container, display, eyebrow, hairline, mono } from "./tokens";
 
-// Sektori kao indeks + izdvojeni projekti kao dosje-redovi.
+// Područja primjene kao indeks + izdvojeni projekti kao dosje-redovi.
 export default function Projects() {
   const featured = getFeaturedProjects(3);
 
@@ -21,7 +21,7 @@ export default function Projects() {
       <div className={container}>
         <Reveal>
           <div className="pb-12 lg:pb-16">
-            <p className={eyebrow}>List 06 / Projekti i sektori</p>
+            <p className={eyebrow}>List 06 / Referentni projekti</p>
             <h2
               id="projekti-naslov"
               className={`${display} mt-4 max-w-3xl text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
@@ -29,7 +29,7 @@ export default function Projects() {
               Jedna sigurnost. Brojne primjene
             </h2>
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-gray">
-              Naša požarna vrata primjenjuju se u različitim sektorima — od
+              Naša požarna vrata primjenjuju se u različitim područjima — od
               stambenih i poslovnih objekata do industrije, zdravstva,
               hotelijerstva i javnih prostora.
             </p>
@@ -37,10 +37,10 @@ export default function Projects() {
         </Reveal>
 
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
-          {/* Indeks sektora */}
+          {/* Indeks područja primjene */}
           <Reveal className="lg:col-span-5" selector="li" stagger={0.06}>
             <p className={`${mono} pb-4 text-[11px] uppercase tracking-[0.24em] text-gray`}>
-              Sektori primjene
+              Područja primjene
             </p>
             <ul className={`border-b ${hairline}`}>
               {PROJECT_CATEGORIES.map((cat, i) => (

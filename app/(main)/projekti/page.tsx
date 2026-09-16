@@ -14,7 +14,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Projekti | FSB Doors",
-  description: "Pogledajte naše uspješno realizirane projekte protupožarne zaštite diljem Hrvatske - bolnice, hoteli, stambene i poslovne građevine, industrija, škole i tuneli.",
+  description: "Referentni projekti protupožarne zaštite prema područjima primjene - zdravstvo, obrazovanje, hoteli, industrija, javni i trgovački objekti, stambene i poslovne zgrade te prometna infrastruktura.",
 };
 
 export default async function ProjectsPage(props: PageProps<"/projekti">) {
@@ -45,11 +45,11 @@ export default async function ProjectsPage(props: PageProps<"/projekti">) {
             </p>
           </Reveal>
 
-          {/* Filtar po sektorima — mono indeks */}
+          {/* Filtar po područjima primjene — mono indeks */}
           <Reveal delay={0.08}>
             <div className={`mt-10 border-t ${hairline} pt-6 lg:mt-14`}>
               <p className={`${mono} pb-4 text-[11px] uppercase tracking-[0.24em] text-gray`}>
-                Filtar / Sektor primjene
+                Filtar / Područje primjene
               </p>
               <div className="flex flex-wrap gap-2">
                 <Link
@@ -96,7 +96,7 @@ export default async function ProjectsPage(props: PageProps<"/projekti">) {
                   Zapis u pripremi
                 </p>
                 <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-gray">
-                  Reference iz ovog sektora uskoro objavljujemo.{" "}
+                  Reference iz ovog područja primjene uskoro objavljujemo.{" "}
                   <Link
                     href="/kontakt"
                     className="text-primary underline-offset-4 transition-colors hover:underline"

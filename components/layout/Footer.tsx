@@ -9,13 +9,13 @@ const FOOTER_NAV = {
     { name: "Fiksne ostakljene stijene", href: "/proizvodi/fiksne-ostakljene-stijene" },
     { name: "Revizijska vrata", href: "/proizvodi/revizijska-vrata" },
   ],
-  sektori: [
-    { name: "Bolnice", href: "/projekti?kategorija=bolnice" },
-    { name: "Hoteli", href: "/projekti?kategorija=hoteli" },
-    { name: "Stambene građevine", href: "/projekti?kategorija=stambene-gradevine" },
-    { name: "Poslovne građevine", href: "/projekti?kategorija=poslovne-gradevine" },
-    { name: "Industrijske građevine", href: "/projekti?kategorija=industrijske-gradevine" },
-    { name: "Tuneli", href: "/projekti?kategorija=tuneli" },
+  podrucja: [
+    { name: "Bolnice i zdravstvene ustanove", href: "/projekti?kategorija=bolnice-i-zdravstvene-ustanove" },
+    { name: "Hoteli i ugostiteljski objekti", href: "/projekti?kategorija=hoteli-i-ugostiteljski-objekti" },
+    { name: "Industrijski i proizvodni objekti", href: "/projekti?kategorija=industrijski-i-proizvodni-objekti" },
+    { name: "Stambene i poslovne zgrade", href: "/projekti?kategorija=stambene-i-poslovne-zgrade" },
+    { name: "Trgovački i prodajni centri", href: "/projekti?kategorija=trgovacki-i-prodajni-centri" },
+    { name: "Prometna infrastruktura", href: "/projekti?kategorija=prometna-infrastruktura" },
   ],
   tvrtka: [
     { name: "O nama", href: "/o-nama" },
@@ -92,7 +92,7 @@ export default function Footer() {
         {(
           [
             ["Proizvodi", FOOTER_NAV.proizvodi],
-            ["Sektori", FOOTER_NAV.sektori],
+            ["Područja primjene", FOOTER_NAV.podrucja],
             ["Tvrtka", FOOTER_NAV.tvrtka],
           ] as const
         ).map(([title, items], col) => (
