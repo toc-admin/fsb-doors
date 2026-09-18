@@ -21,7 +21,7 @@ export default function Products() {
               </h2>
             </div>
             <p className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
-              4 kategorije — izrada po mjeri
+              {productCategories.length} kategorija — izrada po mjeri
             </p>
           </div>
         </Reveal>

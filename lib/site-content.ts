@@ -10,7 +10,7 @@ export interface TrustStat {
 export const HERO_TRUST_STATS: TrustStat[] = [
   { value: "20+", label: "godina iskustva" },
   { value: "5000+", label: "ugrađenih vrata" },
-  { value: "EI120", label: "najviša klasa otpornosti" },
+  { value: "EI120", label: "najviši razred vatrootpornosti" },
 ];
 
 export interface CompanyStat {
@@ -37,7 +37,7 @@ export const COMPANY_STATS: CompanyStat[] = [
     value: 120,
     suffix: "",
     label: "Minuta vatrootpornosti",
-    description: "Najviša klasa EI120",
+    description: "Najviši razred EI120",
   },
 ];
 
@@ -136,14 +136,22 @@ export const RND_CERTIFICATION = {
   title: "Vlastiti razvoj, ispitano i certificirano",
   paragraphs: [
     "FSB Doors ima vlastiti odjel za istraživanje i razvoj koji kontinuirano razvija i unapređuje naša protupožarna rješenja — od konstrukcije i materijala do najsitnijih detalja izvedbe.",
-    "Svaki proizvod prolazi ispitivanja u akreditiranim tijelima (LTM, Institut IGH i dr.), a naš tim vodi ga kroz cijeli proces certifikacije do potrebnih oznaka i klasa otpornosti.",
   ],
   points: [
     "Vlastiti odjel za istraživanje i razvoj te kontinuirano unapređenje proizvoda",
-    "Ispitivanja u akreditiranim tijelima (LTM, Institut IGH i dr.)",
-    "Vođenje proizvoda kroz cijeli proces certifikacije",
-    "Klase otpornosti od EI30 do EI120",
+    "Ispitivanja i certifikacija proizvoda u akreditiranim tijelima",
   ],
+  // Svojstva na koja ispitujemo i certificiramo naša vrata.
+  testedProperties: [
+    "Dimonepropusnost",
+    "Zvučna izolativnost",
+    "Otpornost na udar vjetra i kiše",
+    "Zrakopropusnost",
+    "Vodonepropusnost",
+    "Toplinska provodljivost",
+  ],
+  upcomingProperties: ["Protuprovalnost", "Balistička otpornost"],
+  certificatesLink: "https://ltm.hr/ltm-cert/",
 };
 
 export const MARQUEE_ITEMS = [

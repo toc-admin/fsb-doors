@@ -52,7 +52,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {product.shortDescription}
           </p>
 
-          {/* Klase otpornosti */}
+          {/* Razredi vatrootpornosti */}
           <div className="mt-5 flex flex-wrap gap-2">
             {product.fireRating.slice(0, 3).map((rating) => (
               <span

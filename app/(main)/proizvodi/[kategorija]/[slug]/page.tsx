@@ -1,22 +1,22 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import ProductDetail from "@/components/sections/ProductDetail";
-import { getProductBySlug, getProductsByCategory } from "@/lib/products";
+import { getProductBySlug, products } from "@/lib/products";
 
 interface Props {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ kategorija: string; slug: string }>;
 }
 
-export async function generateStaticParams() {
-  const products = getProductsByCategory("revizijska-vrata");
+export function generateStaticParams() {
   return products.map((product) => ({
+    kategorija: product.categorySlug,
     slug: product.slug,
   }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
-  const product = getProductBySlug("revizijska-vrata", slug);
+  const { kategorija, slug } = await params;
+  const product = getProductBySlug(kategorija, slug);
 
   if (!product) {
     return {
@@ -31,8 +31,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const { slug } = await params;
-  const product = getProductBySlug("revizijska-vrata", slug);
+  const { kategorija, slug } = await params;
+  const product = getProductBySlug(kategorija, slug);
 
   if (!product) {
     notFound();

@@ -10,7 +10,7 @@ import { productCategories, products } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "Proizvodi | FSB Doors",
-  description: "Širok asortiman certificiranih protupožarnih vrata - čelična vrata, ostakljena vrata, fiksne ostakljene stijene i revizijska vrata.",
+  description: "Širok asortiman certificiranih požarnih vrata - čelična vrata, aluminijska vrata, aluminijski prozori, fiksne ostakljene stijene i revizijska vrata.",
 };
 
 export default function ProductsPage() {
@@ -28,13 +28,13 @@ export default function ProductsPage() {
                 Naši proizvodi
               </h1>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-gray">
-                Nudimo širok asortiman certificiranih protupožarnih vrata za sve
+                Nudimo širok asortiman certificiranih požarnih vrata za sve
                 vrste objekata i namjena. Svi naši proizvodi ispunjavaju
                 najstrože europske standarde.
               </p>
               <div className={`mt-9 flex flex-wrap gap-x-8 gap-y-3 border-t ${hairline} pt-5`}>
                 <span className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
-                  {productCategories.length} kategorije
+                  {productCategories.length} kategorija
                 </span>
                 <span className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
                   {products.length}+ proizvoda
@@ -50,7 +50,7 @@ export default function ProductsPage() {
                 <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
                   <Image
                     src="/images/foto/celicna-vrata-katalog-1.webp"
-                    alt="Čelična protupožarna vrata iz proizvodnog programa"
+                    alt="Čelična požarna vrata iz proizvodnog programa"
                     fill
                     sizes="(min-width: 1024px) 30vw, 100vw"
                     className="object-cover grayscale contrast-[1.05] brightness-[0.85]"
@@ -63,7 +63,7 @@ export default function ProductsPage() {
                 <figcaption
                   className={`${mono} mt-3 text-[10px] uppercase leading-relaxed tracking-[0.2em] text-gray`}
                 >
-                  Katalog / čelična protupožarna vrata
+                  Katalog / čelična požarna vrata
                 </figcaption>
               </figure>
             </Reveal>

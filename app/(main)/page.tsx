@@ -1,7 +1,7 @@
 import Hero from "@/components/site/Hero";
 import Products from "@/components/site/Products";
 import Process from "@/components/site/Process";
-import BrandBand from "@/components/site/BrandBand";
+import Production from "@/components/site/Production";
 import Rnd from "@/components/site/Rnd";
 import Projects from "@/components/site/Projects";
 import StatsStrip from "@/components/site/StatsStrip";
@@ -17,7 +17,7 @@ export default function Home() {
       <Products />
       <SectionRule code="B—B / 03" />
       <Process />
-      <BrandBand />
+      <Production />
       <Rnd />
       <SectionRule code="C—C / 06" />
       <Projects />

@@ -1,22 +1,53 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import { notFound } from "next/navigation";
 import Container from "@/components/ui/Container";
 import ProductCard from "@/components/ui/ProductCard";
 import CTA from "@/components/sections/CTA";
 import Reveal from "@/components/site/Reveal";
 import SectionRule from "@/components/site/SectionRule";
 import { display, eyebrow, hairline, mono } from "@/components/site/tokens";
-import { getCategoryBySlug, getProductsByCategory } from "@/lib/products";
+import {
+  getCategoryBySlug,
+  getProductsByCategory,
+  productCategories,
+} from "@/lib/products";
 
-const category = getCategoryBySlug("fiksne-ostakljene-stijene")!;
-const products = getProductsByCategory("fiksne-ostakljene-stijene");
+interface Props {
+  params: Promise<{ kategorija: string }>;
+}
 
-export const metadata: Metadata = {
-  title: `${category.name} | FSB Doors`,
-  description: category.description,
-};
+export function generateStaticParams() {
+  return productCategories.map((category) => ({
+    kategorija: category.slug,
+  }));
+}
 
-export default function GlazedPartitionsPage() {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { kategorija } = await params;
+  const category = getCategoryBySlug(kategorija);
+
+  if (!category) {
+    return { title: "Kategorija nije pronađena | FSB Doors" };
+  }
+
+  return {
+    title: `${category.name} | FSB Doors`,
+    description: category.description,
+  };
+}
+
+export default async function ProductCategoryPage({ params }: Props) {
+  const { kategorija } = await params;
+  const category = getCategoryBySlug(kategorija);
+
+  if (!category) {
+    notFound();
+  }
+
+  const products = getProductsByCategory(category.slug);
+  const listIndex = productCategories.findIndex((c) => c.slug === category.slug) + 2;
+
   return (
     <>
       {/* Uvodni list kategorije */}
@@ -24,7 +55,9 @@ export default function GlazedPartitionsPage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
             <Reveal className="lg:col-span-7">
-              <p className={eyebrow}>List P—04 / Fiksne ostakljene stijene</p>
+              <p className={eyebrow}>
+                List P—{String(listIndex).padStart(2, "0")} / {category.name}
+              </p>
               <h1
                 className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
               >
@@ -104,39 +137,30 @@ export default function GlazedPartitionsPage() {
         </Container>
       </section>
 
-      <SectionRule code="P—P / 04" />
+      <SectionRule code="P—P / 02" />
 
-      {/* Zašto fiksne ostakljene stijene */}
+      {/* Obrazloženje kategorije */}
       <section className="py-20 lg:py-28">
         <Container>
           <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
             <Reveal>
-              <p className={eyebrow}>Obrazloženje / Stijene</p>
+              <p className={eyebrow}>{category.why.eyebrow}</p>
               <h2
                 className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
               >
-                Zašto odabrati fiksne ostakljene stijene?
+                {category.why.title}
               </h2>
               <p className="mt-6 max-w-xl text-base leading-relaxed text-gray">
-                Fiksne ostakljene stijene idealne su za stvaranje protupožarnih zona uz
-                održavanje vizualne povezanosti prostora. Modularni sustav omogućuje
-                prilagodbu raznim konfiguracijama i dimenzijama.
+                {category.why.intro}
               </p>
               <ul className={`mt-10 border-b ${hairline}`}>
-                {[
-                  "Visina do 4 metra",
-                  "Modularni sustav za fleksibilnost",
-                  "Kombinacija s vratima",
-                  "Minimalni profili za maksimalnu transparentnost",
-                  "Zidna ili stropna montaža",
-                  "Idealne za atrije i otvorene prostore",
-                ].map((item, i) => (
+                {category.why.points.map((item, i) => (
                   <li
                     key={item}
                     className={`flex items-baseline gap-4 border-t ${hairline} py-3.5`}
                   >
                     <span className={`${mono} text-[11px] tracking-[0.2em] text-gray`}>
-                      S.{i + 1}
+                      O.{i + 1}
                     </span>
                     <span className="text-sm leading-relaxed text-foreground md:text-base">
                       {item}
@@ -150,8 +174,8 @@ export default function GlazedPartitionsPage() {
               <figure>
                 <div className={`relative aspect-square overflow-hidden border ${hairline}`}>
                   <Image
-                    src="/images/foto/ugradnja-atrij-radnici.webp"
-                    alt="Ugradnja fiksnih ostakljenih stijena u atriju"
+                    src={category.why.image}
+                    alt={category.why.imageAlt}
                     fill
                     sizes="(min-width: 1024px) 45vw, 100vw"
                     className="object-cover grayscale contrast-[1.05] brightness-[0.85]"
@@ -162,9 +186,10 @@ export default function GlazedPartitionsPage() {
                   />
                 </div>
                 <figcaption
-                  className={`${mono} mt-3 text-[10px] uppercase leading-relaxed tracking-[0.2em] text-gray`}
+                  className={`${mono} mt-3 flex flex-wrap justify-between gap-2 text-[10px] uppercase leading-relaxed tracking-[0.2em] text-gray`}
                 >
-                  Ugradnja ostakljenih stijena / atrij
+                  <span>{category.why.imageCaption}</span>
+                  <span className="text-primary">Certificirano — EN 1634-1, CE oznaka</span>
                 </figcaption>
               </figure>
             </Reveal>
@@ -173,7 +198,7 @@ export default function GlazedPartitionsPage() {
       </section>
 
       <CTA
-        title="Trebate protupožarne staklene stijene?"
+        title={category.ctaTitle}
         subtitle="Kontaktirajte nas za besplatno savjetovanje i izradu ponude prilagođene vašim potrebama."
       />
     </>

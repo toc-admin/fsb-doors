@@ -1,16 +1,26 @@
-import Image from "next/image";
 import Link from "next/link";
 import {
   PROJECT_CATEGORIES,
+  REFERENCES,
   getCategoryName,
-  getFeaturedProjects,
 } from "@/lib/projects";
 import Reveal from "./Reveal";
 import { container, display, eyebrow, hairline, mono } from "./tokens";
 
-// Područja primjene kao indeks + izdvojeni projekti kao dosje-redovi.
+// Presjek stvarnih referenci kroz različita područja primjene.
+const FEATURED_REFERENCE_NAMES = [
+  "Tunel Plasina",
+  "KBC Osijek",
+  "Supernova Varaždin",
+  "Nadbiskupski dvor",
+  "RHE Velebit",
+];
+
+// Područja primjene kao indeks + izdvojene reference kao dosje-redovi.
 export default function Projects() {
-  const featured = getFeaturedProjects(3);
+  const featured = FEATURED_REFERENCE_NAMES.map((name) =>
+    REFERENCES.find((reference) => reference.name === name)
+  ).filter((reference) => reference !== undefined);
 
   return (
     <section
@@ -71,7 +81,7 @@ export default function Projects() {
           <Reveal className="lg:col-span-7" selector="li" stagger={0.1}>
             <div className="flex items-baseline justify-between gap-4 pb-4">
               <p className={`${mono} text-[11px] uppercase tracking-[0.24em] text-gray`}>
-                Izdvojeni projekti
+                Izdvojene reference
               </p>
               <Link
                 href="/projekti"
@@ -81,49 +91,49 @@ export default function Projects() {
               </Link>
             </div>
             <ul className={`border-b ${hairline}`}>
-              {featured.map((project, i) => (
-                <li key={project.slug}>
-                  <Link
-                    href={`/projekti/${project.slug}`}
-                    className={`group block border-t ${hairline} py-6 transition-colors hover:bg-light md:py-7`}
-                  >
+              {featured.map((reference, i) => {
+                const row = (
+                  <>
                     <div className={`${mono} flex flex-wrap items-baseline gap-x-4 gap-y-1 text-[11px] tracking-[0.16em] text-gray`}>
                       <span>{String(i + 1).padStart(2, "0")}</span>
-                      <span>{project.year}</span>
-                      <span>{project.location}</span>
+                      {reference.location && <span>{reference.location}</span>}
                       <span className="ml-auto uppercase">
-                        {getCategoryName(project.category)}
+                        {getCategoryName(reference.category)}
                       </span>
                     </div>
                     <div className="mt-3 flex items-center justify-between gap-5">
-                      <span className={`relative hidden aspect-[4/3] w-28 shrink-0 overflow-hidden sm:block`}>
-                        <Image
-                          src={project.image}
-                          alt=""
-                          fill
-                          sizes="112px"
-                          className="object-cover grayscale contrast-[1.05] brightness-[0.85] transition-transform duration-500 group-hover:scale-[1.03]"
-                        />
-                        <span
-                          aria-hidden="true"
-                          className="absolute inset-0 bg-primary/25 mix-blend-multiply"
-                        />
-                      </span>
                       <h3
                         className={`${display} flex-1 text-2xl font-medium uppercase leading-tight md:text-3xl`}
                       >
-                        {project.title}
+                        {reference.name}
                       </h3>
-                      <span
-                        aria-hidden="true"
-                        className={`${mono} text-lg text-gray transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground`}
-                      >
-                        →
-                      </span>
+                      {reference.projectSlug && (
+                        <span
+                          aria-hidden="true"
+                          className={`${mono} text-lg text-gray transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground`}
+                        >
+                          →
+                        </span>
+                      )}
                     </div>
-                  </Link>
-                </li>
-              ))}
+                  </>
+                );
+
+                return (
+                  <li key={reference.name}>
+                    {reference.projectSlug ? (
+                      <Link
+                        href={`/projekti/${reference.projectSlug}`}
+                        className={`group block border-t ${hairline} py-5 transition-colors hover:bg-light md:py-6`}
+                      >
+                        {row}
+                      </Link>
+                    ) : (
+                      <div className={`border-t ${hairline} py-5 md:py-6`}>{row}</div>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </Reveal>
         </div>

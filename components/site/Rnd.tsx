@@ -10,6 +10,20 @@ const EI_CLASSES = [
   { label: "EI120", minutes: 120 },
 ];
 
+// Dokumentacija ispitivanja — stvarne fotografije iz ispitne peći.
+const TEST_SHOTS = [
+  {
+    src: "/images/foto/ltm-ispitivanje-zar.webp",
+    alt: "Požarna vrata u ispitnoj peći tijekom ispitivanja vatrootpornosti",
+    caption: "Ispitna peć / vrata tijekom ispitivanja vatrootpornosti",
+  },
+  {
+    src: "/images/foto/ltm-staklo-zar.webp",
+    alt: "Staklena stijena izložena plamenu tijekom ispitivanja vatrootpornosti",
+    caption: "Ispitna peć / staklena stijena tijekom ispitivanja",
+  },
+];
+
 // Ključni diferencijator: vlastiti razvoj + akreditirana ispitivanja.
 export default function Rnd() {
   return (
@@ -20,43 +34,30 @@ export default function Rnd() {
     >
       <div className={container}>
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* Lijevi stupac — oznaka lista i instituti kao pečati */}
+          {/* Lijevi stupac — oznaka lista i fotografije ispitivanja */}
           <Reveal className="lg:col-span-4">
             <p className={eyebrow}>List 05 / Razvoj i certifikacija</p>
 
-            <div className="mt-10 flex flex-col items-start gap-5">
-              <p className={`${mono} text-[11px] uppercase tracking-[0.24em] text-gray`}>
-                Akreditirani instituti
-              </p>
-              <span
-                className={`${mono} border ${hairline} px-5 py-3 text-sm uppercase tracking-[0.3em] text-foreground outline outline-offset-4 outline-[rgba(237,234,228,0.14)]`}
-              >
-                LTM
-              </span>
-              <span
-                className={`${mono} border ${hairline} px-5 py-3 text-sm uppercase tracking-[0.3em] text-foreground outline outline-offset-4 outline-[rgba(237,234,228,0.14)]`}
-              >
-                Institut IGH
-              </span>
+            <div className="mt-10 flex flex-col gap-10">
+              {TEST_SHOTS.map((shot) => (
+                <figure key={shot.src}>
+                  <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
+                    <Image
+                      src={shot.src}
+                      alt={shot.alt}
+                      fill
+                      sizes="(min-width: 1024px) 30vw, 100vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <figcaption
+                    className={`${mono} mt-3 text-[10px] uppercase leading-relaxed tracking-[0.2em] text-gray`}
+                  >
+                    {shot.caption}
+                  </figcaption>
+                </figure>
+              ))}
             </div>
-
-            {/* Dokumentacija ispitivanja — stvarne fotografije iz ispitne peći */}
-            <figure className="mt-12">
-              <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
-                <Image
-                  src="/images/foto/ltm-ispitivanje-zar.webp"
-                  alt="Protupožarna vrata u ispitnoj peći tijekom ispitivanja vatrootpornosti"
-                  fill
-                  sizes="(min-width: 1024px) 30vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              <figcaption
-                className={`${mono} mt-3 text-[10px] uppercase leading-relaxed tracking-[0.2em] text-gray`}
-              >
-                Ispitna peć / vrata tijekom ispitivanja vatrootpornosti
-              </figcaption>
-            </figure>
           </Reveal>
 
           {/* Desni stupac — sadržaj */}
@@ -93,13 +94,42 @@ export default function Rnd() {
               </ul>
             </Reveal>
 
-            {/* Skala klasa otpornosti EI30–EI120 */}
+            {/* Svojstva koja ispitujemo i certificiramo */}
+            <Reveal>
+              <figure className="mt-12">
+                <figcaption
+                  className={`${mono} text-[11px] uppercase tracking-[0.24em] text-gray`}
+                >
+                  Ispitujemo i certificiramo
+                </figcaption>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {RND_CERTIFICATION.testedProperties.map((property) => (
+                    <li
+                      key={property}
+                      className={`${mono} border ${hairline} px-3.5 py-2 text-[11px] uppercase tracking-[0.16em] text-foreground`}
+                    >
+                      {property}
+                    </li>
+                  ))}
+                  {RND_CERTIFICATION.upcomingProperties.map((property) => (
+                    <li
+                      key={property}
+                      className={`${mono} border border-dashed ${hairline} px-3.5 py-2 text-[11px] uppercase tracking-[0.16em] text-gray`}
+                    >
+                      {property} — uskoro
+                    </li>
+                  ))}
+                </ul>
+              </figure>
+            </Reveal>
+
+            {/* Skala razreda vatrootpornosti EI30–EI120 */}
             <Reveal>
               <figure className="mt-14">
                 <figcaption
                   className={`${mono} text-[11px] uppercase tracking-[0.24em] text-gray`}
                 >
-                  Ispitane klase otpornosti — minute vatrootpornosti
+                  Razredi vatrootpornosti
                 </figcaption>
                 <div className="relative mt-8 pb-8">
                   <div className={`h-px w-full border-t ${hairline}`} />
@@ -129,6 +159,19 @@ export default function Rnd() {
                   ))}
                 </div>
               </figure>
+            </Reveal>
+
+            {/* Javno dostupan registar certifikata akreditiranog tijela */}
+            <Reveal>
+              <a
+                href={RND_CERTIFICATION.certificatesLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${mono} mt-6 inline-flex items-baseline gap-3 border ${hairline} px-5 py-3.5 text-[12px] uppercase tracking-[0.18em] text-foreground transition-colors hover:border-[#8a8f98]`}
+              >
+                Pogledajte naše certifikate i ispitivanja
+                <span aria-hidden="true">↗</span>
+              </a>
             </Reveal>
           </div>
         </div>

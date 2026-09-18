@@ -4,45 +4,51 @@ import { container, display, eyebrow, hairline, mono } from "./tokens";
 
 const SHOTS = [
   {
-    src: "/images/foto/tunel-vrata-767m.webp",
-    alt: "Narančasta protupožarna vrata evakuacijskog prolaza u cestovnom tunelu",
-    caption: "Tunel — evakuacijski prolaz",
+    src: "/images/foto/celicna-vrata-katalog-1.webp",
+    alt: "Čelična požarna vrata izrađena u vlastitom proizvodnom pogonu FSB Doors",
+    caption: "Čelična požarna vrata — vlastita izrada",
   },
   {
-    src: "/images/foto/ugradnja-atrij-radnici.webp",
-    alt: "FSB monteri ugrađuju čeličnu ostakljenu stijenu u atriju",
-    caption: "Ugradnja — čelično-staklena stijena",
+    src: "/images/foto/celicna-vrata-dvokrilna.webp",
+    alt: "Dvokrilna čelična požarna vrata iz proizvodnog programa FSB Doors",
+    caption: "Dvokrilna izvedba — proizvodni pogon",
   },
   {
-    src: "/images/foto/ltm-staklo-zar.webp",
-    alt: "Vatrostalno staklo tijekom ispitivanja požarne otpornosti",
-    caption: "Ispitivanje — vatrostalno staklo",
+    src: "/images/foto/ugradnja-stakla-detalj.webp",
+    alt: "Detalj ugradnje vatrootpornog ostakljenja",
+    caption: "Ostakljenje — kontrola u svim fazama",
   },
 ];
 
-// Brend u prostoru: stvarne ugradnje kao dokaz, potpis brenda kao poruka.
-export default function BrandBand() {
+// Vlastita certificirana proizvodnja — od materijala do gotovog proizvoda.
+export default function Production() {
   return (
     <section
-      aria-labelledby="brend-naslov"
-      className={`border-y ${hairline} bg-dark py-20 lg:py-28`}
+      id="proizvodnja"
+      aria-labelledby="proizvodnja-naslov"
+      className={`scroll-mt-24 border-y ${hairline} bg-dark py-20 lg:py-28`}
     >
       <div className={container}>
         <Reveal>
           <div className="flex flex-wrap items-end justify-between gap-4 pb-10 lg:pb-14">
             <div>
-              <p className={eyebrow}>List 04 / FSB Doors u prostoru</p>
+              <p className={eyebrow}>List 04 / Proizvodnja</p>
               <h2
-                id="brend-naslov"
+                id="proizvodnja-naslov"
                 className={`${display} mt-4 max-w-3xl text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
               >
-                Ne prodajemo samo vrata.
+                Vlastita certificirana
                 <br />
-                <span className="text-primary">Prodajemo povjerenje.</span>
+                <span className="text-primary">proizvodnja</span>
               </h2>
+              <p className="mt-7 max-w-2xl text-base leading-relaxed text-gray">
+                Svaki proizvod nastaje u našem vlastitom certificiranom
+                proizvodnom pogonu — po mjeri, uz strogu kontrolu kvalitete u
+                svim fazama, od pripreme materijala do gotovog proizvoda.
+              </p>
             </div>
             <p className={`${mono} max-w-[220px] text-[11px] uppercase leading-relaxed tracking-[0.22em] text-gray`}>
-              Svaka ugradnja nosi potpis FSB Doors
+              Od materijala do gotovog proizvoda — u vlastitom pogonu
             </p>
           </div>
         </Reveal>
@@ -63,7 +69,7 @@ export default function BrandBand() {
                 <figcaption
                   className={`${mono} mt-3 flex items-baseline gap-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
                 >
-                  <span className="text-primary">F.{i + 1}</span>
+                  <span className="text-primary">P.{i + 1}</span>
                   {shot.caption}
                 </figcaption>
               </figure>

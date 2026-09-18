@@ -1,15 +1,15 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import ProjectGrid from "@/components/sections/ProjectGrid";
 import CTA from "@/components/sections/CTA";
 import Reveal from "@/components/site/Reveal";
 import SectionRule from "@/components/site/SectionRule";
 import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
 import {
   PROJECT_CATEGORIES,
-  getAllProjects,
   getCategoryBySlug,
-  getProjectsByCategory,
+  getProjectBySlug,
+  getReferencesByCategory,
+  type Reference,
 } from "@/lib/projects";
 
 export const metadata: Metadata = {
@@ -17,14 +17,51 @@ export const metadata: Metadata = {
   description: "Referentni projekti protupožarne zaštite prema područjima primjene - zdravstvo, obrazovanje, hoteli, industrija, javni i trgovački objekti, stambene i poslovne zgrade te prometna infrastruktura.",
 };
 
+// Red registra: reference s detaljnim dosjeom vode na svoju stranicu.
+function ReferenceRow({ reference, index }: { reference: Reference; index: number }) {
+  const detail = reference.projectSlug ? getProjectBySlug(reference.projectSlug) : undefined;
+  const content = (
+    <>
+      <span className={`${mono} text-[11px] tracking-[0.16em] text-gray`}>
+        {String(index + 1).padStart(2, "0")}
+      </span>
+      <span className="flex-1 text-sm text-foreground md:text-base">{reference.name}</span>
+      {reference.location && (
+        <span className={`${mono} text-[11px] uppercase tracking-[0.16em] text-gray`}>
+          {reference.location}
+        </span>
+      )}
+      {detail && (
+        <span
+          aria-hidden="true"
+          className={`${mono} text-sm text-gray transition-transform duration-300 group-hover:translate-x-1 group-hover:text-foreground`}
+        >
+          →
+        </span>
+      )}
+    </>
+  );
+
+  if (detail) {
+    return (
+      <Link
+        href={`/projekti/${detail.slug}`}
+        className={`group flex items-baseline gap-5 border-t ${hairline} py-4 transition-colors hover:bg-light`}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className={`flex items-baseline gap-5 border-t ${hairline} py-4`}>{content}</div>;
+}
+
 export default async function ProjectsPage(props: PageProps<"/projekti">) {
   const { kategorija } = await props.searchParams;
   const activeCategory = getCategoryBySlug(
     Array.isArray(kategorija) ? kategorija[0] : kategorija ?? ""
   );
-  const projects = activeCategory
-    ? getProjectsByCategory(activeCategory.slug)
-    : getAllProjects();
+  const categoriesToShow = activeCategory ? [activeCategory] : PROJECT_CATEGORIES;
 
   return (
     <>
@@ -41,7 +78,7 @@ export default async function ProjectsPage(props: PageProps<"/projekti">) {
             <p className="mt-6 max-w-2xl text-base leading-relaxed text-gray md:text-lg">
               {activeCategory
                 ? activeCategory.description
-                : "Pogledajte neke od naših uspješno realiziranih projekata. Od bolnica i hotela do industrijskih građevina i tunela - naša vrata štite objekte diljem Hrvatske."}
+                : "Referentni projekti prema područjima primjene. Od bolnica i škola do trgovačkih centara i tunela - naša vrata štite objekte diljem Hrvatske."}
             </p>
           </Reveal>
 
@@ -84,32 +121,57 @@ export default async function ProjectsPage(props: PageProps<"/projekti">) {
         </div>
       </section>
 
-      {/* Popis projekata */}
-      {projects.length > 0 ? (
-        <ProjectGrid projects={projects} showHeading={false} />
-      ) : (
-        <section className="py-20 lg:py-28">
-          <div className={container}>
-            <Reveal>
-              <div className={`border ${hairline} px-6 py-14 text-center md:py-20`}>
-                <p className={`${mono} text-[11px] uppercase tracking-[0.24em] text-gray`}>
-                  Zapis u pripremi
-                </p>
-                <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-gray">
-                  Reference iz ovog područja primjene uskoro objavljujemo.{" "}
-                  <Link
-                    href="/kontakt"
-                    className="text-primary underline-offset-4 transition-colors hover:underline"
-                  >
-                    Kontaktirajte nas
-                  </Link>{" "}
-                  za više informacija.
-                </p>
-              </div>
-            </Reveal>
+      {/* Registar referenci po područjima primjene */}
+      <section className="py-16 lg:py-24">
+        <div className={container}>
+          <div className="space-y-16 lg:space-y-20">
+            {categoriesToShow.map((category, ci) => {
+              const references = getReferencesByCategory(category.slug);
+              return (
+                <div key={category.slug}>
+                  {!activeCategory && (
+                    <Reveal>
+                      <div className="flex flex-wrap items-baseline gap-x-5 gap-y-2">
+                        <span className={`${mono} text-[11px] tracking-[0.2em] text-gray`}>
+                          {String(ci + 1).padStart(2, "0")}
+                        </span>
+                        <h2
+                          className={`${display} text-2xl font-medium uppercase leading-tight md:text-3xl`}
+                        >
+                          {category.name}
+                        </h2>
+                      </div>
+                      <p className="mt-4 max-w-3xl text-sm leading-relaxed text-gray md:text-base">
+                        {category.description}
+                      </p>
+                    </Reveal>
+                  )}
+
+                  {references.length > 0 ? (
+                    <Reveal selector="li" stagger={0.05}>
+                      <ul className={`mt-6 border-b ${hairline}`}>
+                        {references.map((reference, i) => (
+                          <li key={reference.name}>
+                            <ReferenceRow reference={reference} index={i} />
+                          </li>
+                        ))}
+                      </ul>
+                    </Reveal>
+                  ) : (
+                    <Reveal>
+                      <p
+                        className={`${mono} mt-6 border-t ${hairline} pt-5 text-[11px] uppercase tracking-[0.2em] text-gray`}
+                      >
+                        Reference iz ovog područja primjene uskoro objavljujemo
+                      </p>
+                    </Reveal>
+                  )}
+                </div>
+              );
+            })}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       <SectionRule code="PR—PR / 02" />
 

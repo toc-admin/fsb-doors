@@ -100,7 +100,7 @@ export default function Hero() {
             <p className="hero-sub mt-7 max-w-xl text-base leading-relaxed text-gray md:text-lg">
               Protupožarna vrata po mjeri — od tehničke sheme do ugradnje.
               Vlastiti razvoj i proizvodnja, ispitivanja u akreditiranim
-              institutima i klase otpornosti od EI30 do EI120.
+              tijelima i razredi vatrootpornosti od EI30 do EI120.
             </p>
 
             <div className="hero-ctas mt-9 flex flex-wrap items-center gap-4">

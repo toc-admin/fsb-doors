@@ -29,6 +29,44 @@ const nextConfig: NextConfig = {
         destination: "/projekti?kategorija=stambene-gradevine",
         permanent: true,
       },
+      // Restrukturiranje proizvodnog programa (2026-09-18): kategorija
+      // "Ostakljena vrata" zamijenjena je kategorijom "Aluminijska vrata".
+      {
+        source: "/proizvodi/ostakljena-vrata",
+        destination: "/proizvodi/aluminijska-vrata",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi/ostakljena-vrata/:slug",
+        destination: "/proizvodi/aluminijska-vrata",
+        permanent: true,
+      },
+      // Stari kataloški slugovi proizvoda vode na svoje nove domove.
+      {
+        source: "/proizvodi/celicna-vrata/:slug(fsd-.*)",
+        destination: "/proizvodi/celicna-vrata",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi/fiksne-ostakljene-stijene/:slug(fgw-.*)",
+        destination: "/proizvodi/fiksne-ostakljene-stijene",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi/revizijska-vrata/fad-1-zidna-revizijska-vrata",
+        destination: "/proizvodi/revizijska-vrata/zidna-revizijska-vrata",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi/revizijska-vrata/fad-2-stropna-revizijska-vrata",
+        destination: "/proizvodi/revizijska-vrata/stropna-revizijska-vrata",
+        permanent: true,
+      },
+      {
+        source: "/proizvodi/revizijska-vrata/fad-3-podna-revizijska-vrata",
+        destination: "/proizvodi/revizijska-vrata/podna-revizijska-vrata",
+        permanent: true,
+      },
     ];
   },
 };

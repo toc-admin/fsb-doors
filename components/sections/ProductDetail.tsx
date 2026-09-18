@@ -96,7 +96,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 {product.name}
               </h1>
 
-              {/* Klase otpornosti */}
+              {/* Razredi vatrootpornosti */}
               <div className="mt-6 flex flex-wrap gap-2">
                 {product.fireRating.map((rating) => (
                   <span

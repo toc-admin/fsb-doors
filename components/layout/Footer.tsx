@@ -5,7 +5,8 @@ import { container, display, hairline, mono } from "@/components/site/tokens";
 const FOOTER_NAV = {
   proizvodi: [
     { name: "Čelična vrata", href: "/proizvodi/celicna-vrata" },
-    { name: "Ostakljena vrata", href: "/proizvodi/ostakljena-vrata" },
+    { name: "Aluminijska vrata", href: "/proizvodi/aluminijska-vrata" },
+    { name: "Aluminijski prozori", href: "/proizvodi/aluminijski-prozori" },
     { name: "Fiksne ostakljene stijene", href: "/proizvodi/fiksne-ostakljene-stijene" },
     { name: "Revizijska vrata", href: "/proizvodi/revizijska-vrata" },
   ],
