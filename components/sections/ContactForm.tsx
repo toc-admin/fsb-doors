@@ -16,7 +16,6 @@ export default function ContactForm() {
     email: "",
     phone: "",
     company: "",
-    subject: "",
     message: "",
   });
 
@@ -26,7 +25,7 @@ export default function ContactForm() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -173,29 +172,8 @@ export default function ContactForm() {
               </div>
 
               <div>
-                <label htmlFor="subject" className={labelStyles}>
-                  05 / Predmet *
-                </label>
-                <select
-                  id="subject"
-                  name="subject"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`${fieldStyles} [&_option]:bg-light [&_option]:text-foreground`}
-                >
-                  <option value="">Odaberite predmet</option>
-                  <option value="ponuda">Zahtjev za ponudu</option>
-                  <option value="savjetovanje">Savjetovanje</option>
-                  <option value="ugradnja">Ugradnja</option>
-                  <option value="odrzavanje">Održavanje</option>
-                  <option value="ostalo">Ostalo</option>
-                </select>
-              </div>
-
-              <div>
                 <label htmlFor="message" className={labelStyles}>
-                  06 / Poruka *
+                  05 / Poruka *
                 </label>
                 <textarea
                   id="message"
@@ -205,7 +183,7 @@ export default function ContactForm() {
                   value={formData.message}
                   onChange={handleChange}
                   className={`${fieldStyles} resize-none`}
-                  placeholder="Opišite vaš upit..."
+                  placeholder="Ukratko opišite zbog čega se javljate..."
                 />
               </div>
 

@@ -1,14 +1,11 @@
 import { Metadata } from "next";
-import Image from "next/image";
-import Stats from "@/components/sections/Stats";
-import CTA from "@/components/sections/CTA";
 import Reveal from "@/components/site/Reveal";
 import { container, display, eyebrow, hairline, mono } from "@/components/site/tokens";
-import { RND_CERTIFICATION } from "@/lib/site-content";
 
 export const metadata: Metadata = {
   title: "O nama | FSB Doors",
-  description: "FSB DOORS d.o.o. - Više od 20 godina iskustva u izradi i ugradnji protupožarnih vrata vrhunske kvalitete.",
+  description:
+    "FSB Doors razvija, proizvodi i ugrađuje požarna vrata, stijene i prozore prilagođene svakom projektu — od razvoja proizvoda i certifikacije do ugradnje na objektu.",
 };
 
 const values = [
@@ -30,118 +27,43 @@ const values = [
   },
 ];
 
-const certifications = [
-  "EN 1634-1 - Testiranje protupožarnih vrata",
-  "CE oznaka za sve proizvode",
-  "ISO 9001 - Sustav upravljanja kvalitetom",
-  "Hrvatska norma HRN EN 1125 - Evakuacijski okov",
+// Tekst odjeljka dolazi od klijentice (mail, listopad 2026) — ne mijenjati bez nje.
+const story = [
+  "FSB Doors nastao je iz tvrtke FSB Solutions, koja se bavi sustavima pasivne zaštite od požara. Kroz rad na projektima uočili smo da tržište nudi uglavnom standardna, „konfekcijska“ požarna vrata, a mnogim objektima trebaju rješenja izrađena po mjeri. Tako je nastao FSB Doors.",
+  "Danas razvijamo, proizvodimo i ugrađujemo požarna vrata, stijene i prozore prilagođene svakom projektu. Cijeli proces vodimo sami, od razvoja proizvoda i certifikacije do proizvodnje i ugradnje na objektu.",
+  "U našem programu su čelična i aluminijska vrata s ostakljenjem ili bez njega, staklene stijene, revizijska vrata i požarni prozori. Vrata ispitujemo, između ostalog, na vatrootpornost, dimonepropusnost, zvučnu izolaciju i koeficijent prolaska topline.",
+  "Uz sigurnost nam je jednako važan izgled. Želimo da požarna vrata budu dio arhitekture prostora, a ne nešto čemu se prostor mora prilagoditi.",
 ];
 
 export default function AboutPage() {
   return (
     <>
-      {/* Zaglavlje lista — naslov i dokumentarna fotografija tima */}
+      {/* Zaglavlje lista — tekst klijentice, bez fotografije dok ne odabere prikladnu */}
       <section className={`border-b ${hairline} bg-dark py-16 lg:py-24`}>
         <div className={container}>
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-            <Reveal className="lg:col-span-7">
-              <p className={eyebrow}>List O—01 / O nama</p>
-              <h1
-                className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
-              >
-                FSB DOORS d.o.o.
-              </h1>
-              <p className="mt-6 max-w-xl text-base leading-relaxed text-gray md:text-lg">
-                Više od 20 godina izrađujemo i ugrađujemo protupožarna vrata vrhunske kvalitete.
-                Naša misija je zaštititi ljude i imovinu kroz inovativna rješenja protupožarne zaštite.
-              </p>
-            </Reveal>
-            <Reveal delay={0.08} className="lg:col-span-5">
-              <figure>
-                <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
-                  <Image
-                    src="/images/foto/ltm-inzenjeri-monitor.webp"
-                    alt="Inženjeri prate ispitivanje na monitorima ispitne stanice"
-                    fill
-                    sizes="(min-width: 1024px) 40vw, 100vw"
-                    priority
-                    className="object-cover"
-                  />
-                </div>
-                <figcaption
-                  className={`${mono} mt-3 flex items-baseline gap-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
-                >
-                  <span className="text-primary">F.1</span>
-                  Tim za ispitnom stanicom — praćenje ispitivanja
-                </figcaption>
-              </figure>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <Stats />
-
-      {/* Naša priča */}
-      <section aria-labelledby="prica-naslov" className="py-20 lg:py-28">
-        <div className={container}>
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-            <Reveal className="lg:col-span-7">
-              <p className={eyebrow}>List O—02 / Naša priča</p>
-              <h2
-                id="prica-naslov"
-                className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
-              >
-                Naša priča
-              </h2>
-              <div className="mt-7 max-w-2xl space-y-4 text-base leading-relaxed text-gray">
-                <p>
-                  FSB DOORS d.o.o. osnovana je s jasnom vizijom - postati vodeći partner
-                  u protupožarnoj zaštiti na hrvatskom tržištu. Godinama smo gradili svoje
-                  znanje i iskustvo, prateći najnovije tehnologije i standarde u industriji.
-                </p>
-                <p>
-                  Danas smo ponosni na tisuće uspješno realiziranih projekata diljem Hrvatske.
-                  Od manjih poslovnih prostora do velikih industrijskih kompleksa, naša vrata
-                  štite ljude i imovinu u najrazličitijim okruženjima.
-                </p>
-                <p>
-                  Naš tim čine iskusni stručnjaci koji razumiju specifičnosti svakog projekta.
-                  Savjetujemo, planiramo, ugrađujemo i održavamo - pružamo kompletnu uslugu
-                  protupožarne zaštite.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.08} className="lg:col-span-5">
-              <figure>
-                <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
-                  <Image
-                    src="/images/savjetovanje-o-protupozarnoj-zastiti.webp"
-                    alt="Naš tim tijekom savjetovanja o protupožarnoj zaštiti"
-                    fill
-                    sizes="(min-width: 1024px) 40vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-                <figcaption
-                  className={`${mono} mt-3 flex items-baseline gap-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
-                >
-                  <span className="text-primary">F.2</span>
-                  Savjetovanje — analiza zahtjeva projekta
-                </figcaption>
-              </figure>
-            </Reveal>
-          </div>
+          <Reveal className="max-w-3xl">
+            <p className={eyebrow}>List O—01 / O nama</p>
+            <h1
+              className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl lg:text-6xl`}
+            >
+              O nama
+            </h1>
+            <div className="mt-8 space-y-4 text-base leading-relaxed text-gray md:text-lg">
+              {story.map((paragraph) => (
+                <p key={paragraph.slice(0, 24)}>{paragraph}</p>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Vrijednosti — numerirani indeks */}
-      <section aria-labelledby="vrijednosti-naslov" className={`border-y ${hairline} bg-light py-20 lg:py-28`}>
+      <section aria-labelledby="vrijednosti-naslov" className={`bg-light py-20 lg:py-28`}>
         <div className={container}>
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4 pb-10 lg:pb-14">
               <div>
-                <p className={eyebrow}>List O—03 / Naše vrijednosti</p>
+                <p className={eyebrow}>List O—02 / Naše vrijednosti</p>
                 <h2
                   id="vrijednosti-naslov"
                   className={`${display} mt-4 text-4xl font-semibold uppercase leading-none md:text-5xl`}
@@ -174,67 +96,6 @@ export default function AboutPage() {
           </Reveal>
         </div>
       </section>
-
-      {/* Razvoj i certifikacija */}
-      <section aria-labelledby="certifikati-naslov" className="py-20 lg:py-28">
-        <div className={container}>
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-            <Reveal className="order-2 lg:order-1 lg:col-span-5">
-              <figure>
-                <div className={`relative aspect-[4/3] overflow-hidden border ${hairline}`}>
-                  <Image
-                    src="/images/foto/ltm-vrata-nakon-ispitivanja.webp"
-                    alt="Protupožarna vrata nakon ispitivanja vatrootpornosti"
-                    fill
-                    sizes="(min-width: 1024px) 40vw, 100vw"
-                    className="object-cover"
-                  />
-                </div>
-                <figcaption
-                  className={`${mono} mt-3 flex items-baseline gap-3 text-[10px] uppercase tracking-[0.2em] text-gray`}
-                >
-                  <span className="text-primary">F.3</span>
-                  Dokumentacija ispitivanja — vrata nakon ispitne peći
-                </figcaption>
-              </figure>
-            </Reveal>
-            <Reveal className="order-1 lg:order-2 lg:col-span-7">
-              <p className={eyebrow}>List O—04 / {RND_CERTIFICATION.label}</p>
-              <h2
-                id="certifikati-naslov"
-                className={`${display} mt-4 max-w-xl text-4xl font-semibold uppercase leading-none md:text-5xl`}
-              >
-                {RND_CERTIFICATION.label}
-              </h2>
-              <div className="mt-7 max-w-2xl space-y-4 text-base leading-relaxed text-gray">
-                {RND_CERTIFICATION.paragraphs.map((paragraph) => (
-                  <p key={paragraph.slice(0, 24)}>{paragraph}</p>
-                ))}
-              </div>
-              <ul className={`mt-9 border-b ${hairline}`}>
-                {certifications.map((cert, index) => (
-                  <li
-                    key={cert}
-                    className={`flex items-baseline gap-5 border-t ${hairline} py-4`}
-                  >
-                    <span className={`${mono} text-[11px] tracking-[0.2em] text-gray`}>
-                      C.{index + 1}
-                    </span>
-                    <span className="text-sm leading-relaxed text-foreground md:text-base">
-                      {cert}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      <CTA
-        title="Postanite naš partner"
-        subtitle="Pridružite se stotinama zadovoljnih klijenata koji su nam povjerili zaštitu svojih prostora."
-      />
     </>
   );
 }

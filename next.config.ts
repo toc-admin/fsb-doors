@@ -4,6 +4,28 @@ const nextConfig: NextConfig = {
   async redirects() {
     // Kategorija "Primjena" je uklonjena — sadržaj živi pod Projektima.
     return [
+      // Usluge i Blog privremeno skriveni (odluka klijenta, 2026-10) —
+      // privremeni redirecti jer se sekcije kasnije mogu vratiti.
+      {
+        source: "/usluge",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/usluge/:slug",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/blog",
+        destination: "/",
+        permanent: false,
+      },
+      {
+        source: "/blog/:slug",
+        destination: "/",
+        permanent: false,
+      },
       {
         source: "/primjena",
         destination: "/projekti",

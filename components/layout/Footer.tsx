@@ -20,9 +20,7 @@ const FOOTER_NAV = {
   ],
   tvrtka: [
     { name: "O nama", href: "/o-nama" },
-    { name: "Usluge", href: "/usluge" },
     { name: "Projekti", href: "/projekti" },
-    { name: "Blog", href: "/blog" },
     { name: "Karijera", href: "/karijera" },
     { name: "Kontakt", href: "/kontakt" },
   ],

@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { gsap } from "@/lib/animations";
-import { HERO_TRUST_STATS } from "@/lib/site-content";
 import DoorSchematic from "./DoorSchematic";
 import { container, display, eyebrow, hairline, mono } from "./tokens";
 
@@ -62,12 +61,6 @@ export default function Hero() {
             { opacity: 0 },
             { opacity: 1, duration: 0.02, stagger: 0.14, ease: "none" },
             2.0
-          )
-          .fromTo(
-            ".hero-stat",
-            { y: 14, opacity: 0 },
-            { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 },
-            1.6
           );
       });
     }, el);
@@ -132,29 +125,6 @@ export default function Hero() {
             />
             <DoorSchematic className="relative mx-auto h-auto w-full max-w-[380px] lg:max-w-[440px]" />
           </div>
-        </div>
-
-        {/* Mono očitanja — provjerljivi podaci */}
-        <div className={`grid grid-cols-1 gap-px border-t ${hairline} sm:grid-cols-3`}>
-          {HERO_TRUST_STATS.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={`hero-stat flex items-baseline gap-4 py-5 sm:flex-col sm:gap-2 ${
-                i > 0 ? `border-t sm:border-l sm:border-t-0 sm:pl-8 ${hairline}` : ""
-              }`}
-            >
-              <span
-                className={`${mono} text-2xl font-medium tracking-[0.06em] md:text-3xl ${
-                  stat.value.startsWith("EI") ? "text-primary" : "text-foreground"
-                }`}
-              >
-                {stat.value}
-              </span>
-              <span className={`${mono} text-[11px] uppercase tracking-[0.22em] text-gray`}>
-                {stat.label}
-              </span>
-            </div>
-          ))}
         </div>
       </div>
     </section>

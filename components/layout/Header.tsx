@@ -8,10 +8,8 @@ import { hairline, mono } from "@/components/site/tokens";
 
 const NAV = [
   { label: "Proizvodi", href: "/proizvodi" },
-  { label: "Usluge", href: "/usluge" },
   { label: "Projekti", href: "/projekti" },
   { label: "O nama", href: "/o-nama" },
-  { label: "Blog", href: "/blog" },
 ];
 
 export default function Header() {

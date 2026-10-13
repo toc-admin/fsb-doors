@@ -35,7 +35,7 @@ export default function ContactPage() {
               Javite nam se
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-gray md:text-lg">
-              Imate pitanja o našim proizvodima ili uslugama? Naš tim stoji vam na
+              Imate pitanja o našim proizvodima? Naš tim stoji vam na
               raspolaganju za sve informacije i besplatno savjetovanje.
             </p>
           </div>
